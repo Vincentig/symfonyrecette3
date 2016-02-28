@@ -1,0 +1,101 @@
+<?php
+
+namespace VB\RecetteBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Etape
+ *
+ * @ORM\Table()
+ * @ORM\Entity(repositoryClass="VB\RecetteBundle\Entity\EtapeRepository")
+ */
+class Etape
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="numero", type="integer")
+     */
+    private $numero;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="description", type="text")
+     */
+    private $description;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="VB\RecetteBundle\Entity\Recette")
+     */
+    private $recette;
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set numero
+     *
+     * @param integer $numero
+     *
+     * @return Etape
+     */
+    public function setNumero($numero)
+    {
+        $this->numero = $numero;
+
+        return $this;
+    }
+
+    /**
+     * Get numero
+     *
+     * @return integer
+     */
+    public function getNumero()
+    {
+        return $this->numero;
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     *
+     * @return Etape
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+}
+

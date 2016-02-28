@@ -1,0 +1,33 @@
+<?php
+
+namespace VB\RecetteBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * UniteMesure
+ *
+ * @ORM\Table(name="unite_mesure")
+ * @ORM\Entity
+ */
+class UniteMesure
+{
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="abreviation", type="string", length=25, nullable=true)
+     */
+    private $abreviation;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="libelle", type="string", length=25)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $libelle;
+
+
+}
+

@@ -1,0 +1,89 @@
+<?php
+
+namespace VB\RecetteBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Menu
+ *
+ * @ORM\Table(name="menu", indexes={@ORM\Index(name="FK_menu_nom_categorie", columns={"nom_categorie"}), @ORM\Index(name="FK_menu_nom_famille", columns={"nom_famille"}), @ORM\Index(name="FK_menu_num_recette_1", columns={"num_recette_1"}), @ORM\Index(name="FK_menu_nom_categorie_2", columns={"nom_categorie_2"}), @ORM\Index(name="FK_menu_nom_famille_3", columns={"nom_famille_3"}), @ORM\Index(name="IDX_7D053A938CB87979", columns={"num_recette"})})
+ * @ORM\Entity
+ */
+class Menu
+{
+    /**
+     * @var \VB\RecetteBundle\Entity\Recette
+     *
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\OneToOne(targetEntity="VB\RecetteBundle\Entity\Recette")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="num_recette", referencedColumnName="num_recette")
+     * })
+     */
+    private $numRecette;
+
+    /**
+     * @var \VB\RecetteBundle\Entity\Recette
+     *
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\OneToOne(targetEntity="VB\RecetteBundle\Entity\Recette")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="num_recette_1", referencedColumnName="num_recette")
+     * })
+     */
+    private $numRecette1;
+
+    /**
+     * @var \VB\RecetteBundle\Entity\Famille
+     *
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\OneToOne(targetEntity="VB\RecetteBundle\Entity\Famille")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="nom_famille", referencedColumnName="nom_famille")
+     * })
+     */
+    private $nomFamille;
+
+    /**
+     * @var \VB\RecetteBundle\Entity\Categorie
+     *
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\OneToOne(targetEntity="VB\RecetteBundle\Entity\Categorie")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="nom_categorie_2", referencedColumnName="nom_categorie")
+     * })
+     */
+    private $nomCategorie2;
+
+    /**
+     * @var \VB\RecetteBundle\Entity\Categorie
+     *
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\OneToOne(targetEntity="VB\RecetteBundle\Entity\Categorie")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="nom_categorie", referencedColumnName="nom_categorie")
+     * })
+     */
+    private $nomCategorie;
+
+    /**
+     * @var \VB\RecetteBundle\Entity\Famille
+     *
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\OneToOne(targetEntity="VB\RecetteBundle\Entity\Famille")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="nom_famille_3", referencedColumnName="nom_famille")
+     * })
+     */
+    private $nomFamille3;
+
+
+}
+

@@ -1,0 +1,65 @@
+{% extends 'layout_appbundle.html.twig'  %}
+
+    {% block contenu %}
+    <div id="infos">
+        {# On affiche tous les messages flash dont le nom est « info » #}
+        {% for message in app.session.flashbag.get('info') %}
+             <p class="alert alert-info" role="alert">Message flash : {{ message }}</p>
+        {% endfor %}
+    </div>
+
+    {% if recette is not null %}
+    <h1>{% if recette.categorie is not null %}{{ recette.categorie.nomCategorie }} /{% endif %}  {{ recette.famille.nomFamille }}  / {{ recette.numero }}</h1>
+    <h2>{{ recette.nom }} {% if recette.pays is not null %} ({{ recette.pays.nom }}) {% endif %}</h2>
+
+        <img src="{{ asset(recette.image.url) }}" alt="{{ recette.image.alt }}" width="300"  />
+
+    <p>{{ recette.tempsRealisation }} - {{ recette.difficulte }} - {{ recette.cout }}</p>
+
+    <ul>
+        <li>POUR : {{ recette.quantiteMin }} {% if recette.quantiteMax is not null %}à {{ recette.quantiteMax }}{% endif %} {{ recette.quantiteType }}</li>
+        <li>Cuissons : {{ recette.tempsCuissonMin|date('G:i') }}</li>
+        {% for endroit in recette.recetteEndroits %}
+            <li>{{ endroit.endroit.nom }} : {{ endroit.tempsEndroit|date('G\\h i\\m\\i\\n') }} </li>
+        {% else %}
+
+        {% endfor %}
+
+    </ul>
+    <b>Ingrédients</b>
+    <ul>
+        {% for compose in recette.recetteComposes %}
+            {% if compose.nombre is not null and compose.quantiteUniteMesure is not null %}
+                <li>{{ compose.nombre }}
+                    {{ compose.qualiteAvantIngredient }} {{ compose.ingredient.nom }} {{ compose.qualiteApresIngredient }}
+                    de {{ compose.quantiteUniteMesure }}
+                    {% if compose.uniteMesure is not null %}{{ compose.qualiteAvantUniteMesure }} {{ compose.uniteMesure.abreviation }} {{ compose.qualiteApresUniteMesure }}{% endif %}
+                </li>
+            {% else %}
+                <li>{{ compose.nombre }}
+                    {{ compose.quantiteUniteMesure }}
+                    {% if compose.uniteMesure is not null %}{{ compose.uniteMesure.abreviation }} de{% endif %}
+                    {{ compose.qualiteAvantIngredient }} {{ compose.ingredient.nom }} {{ compose.qualiteApresIngredient }}</li>
+            {% endif %}
+
+        {% endfor %}
+    </ul>
+
+
+    <p>
+
+        {% for etape in recette.etapes %}
+            <b>{{ etape.numero }}</b> {{ etape.description }}<br/>
+        {% endfor %}
+    </p>
+
+    {% if recette.boisson is not null %}<p><b>Boisson d'accompagnement</b> : {{ recette.boisson }}</p> {% endif %}
+    {% if recette.notreTruc is not null %}<p><b>Notre truc</b> : {{ recette.notreTruc }}</p> {% endif %}
+    {% if recette.conseilAchat is not null %}<p><b>Conseils d'achat</b> : {{ recette.conseilAchat }}</p> {% endif %}
+    {% else %}
+        <p>Aucune recette trouvée !</p>
+    {% endif %}
+
+
+{% endblock %}
+

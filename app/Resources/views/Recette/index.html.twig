@@ -1,0 +1,29 @@
+{% extends '::layout_appbundle.html.twig' %}
+
+{% block title %} {{parent()}} - Accueil{% endblock %}
+
+{% block contenu %}
+
+    {{ parent() }}
+    <section class="row">
+        {% for recette in recettes %}
+            <article class="col-sm-4">
+                <h3><a href="{{ path('recette_view', {'id': recette.id} ) }}">{{ recette.nom }}</a></h3>
+                <p class="well">
+
+                </p>
+            </article>
+        {% else %}
+            <p>aucune recettes</p>
+        {% endfor %}
+    </section>
+
+{% endblock %}
+
+{% block stylesheets %}
+<style>
+
+
+
+</style>
+{% endblock %}

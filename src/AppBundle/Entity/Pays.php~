@@ -1,0 +1,26 @@
+<?php
+
+namespace VB\RecetteBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Pays
+ *
+ * @ORM\Table(name="pays")
+ * @ORM\Entity
+ */
+class Pays
+{
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nom_pays", type="string", length=25)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $nomPays;
+
+
+}
+

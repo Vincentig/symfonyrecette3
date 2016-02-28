@@ -1,0 +1,48 @@
+<?php
+
+namespace VB\RecetteBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Categorie
+ *
+ * @ORM\Table(name="categorie")
+ * @ORM\Entity
+ */
+class Categorie
+{
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nom_categorie", type="string", length=25)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $nomCategorie;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="VB\RecetteBundle\Entity\Famille", inversedBy="nomCategorie")
+     * @ORM\JoinTable(name="categorie_famille",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="nom_categorie", referencedColumnName="nom_categorie")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="nom_famille", referencedColumnName="nom_famille")
+     *   }
+     * )
+     */
+    private $nomFamille;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->nomFamille = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+}
+
