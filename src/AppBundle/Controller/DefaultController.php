@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class DefaultController
+ *
  * @package AppBundle\Controller
  * @Route()
  */
@@ -30,7 +31,7 @@ class DefaultController extends Controller
 
         // replace this example code with whatever you need
         return $this->render('Recette/index.html.twig', [
-            'recettes'=>$recettes
+            'recettes' => $recettes,
         ]);
     }
 
@@ -42,7 +43,8 @@ class DefaultController extends Controller
     {
 
         return $this->render('Recette/view.html.twig', [
-            'recette'=>$recette
+            'recette' => $recette,
         ]);
+
     }
 }

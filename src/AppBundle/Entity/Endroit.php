@@ -28,7 +28,6 @@ class Endroit
      */
     private $nom;
 
-
     /**
      * Get id
      *
@@ -63,4 +62,6 @@ class Endroit
         return $this->nom;
     }
 }
+
+
 
