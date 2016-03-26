@@ -6,6 +6,7 @@ use AppBundle\Entity\Recette;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class DefaultController
@@ -17,6 +18,9 @@ class DefaultController extends Controller
 {
     /**
      * @Route("/", name="homepage")
+     * @param Request $request
+     *
+     * @return Response
      */
     public function indexAction(Request $request)
     {
@@ -38,6 +42,9 @@ class DefaultController extends Controller
     /**
      *
      * @Route("/view/{id}", name="recette_view")
+     * @param Recette $recette
+     *
+     * @return Response
      */
     public function showAction(Recette $recette)
     {

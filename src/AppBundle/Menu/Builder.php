@@ -10,16 +10,27 @@ use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Knp\Menu\Matcher\Matcher;
 use Knp\Menu\Matcher\Voter\RouteVoter;
 
+/**
+ * Class Builder
+ *
+ * @package AppBundle\Menu
+ */
 class Builder implements ContainerAwareInterface
 {
     use ContainerAwareTrait;
 
+    /**
+     * @param FactoryInterface $factory
+     * @param array            $options
+     *
+     * @return \Knp\Menu\ItemInterface
+     */
     public function adminMenuGauche(FactoryInterface $factory, array $options)
     {
         $menu = $factory->createItem('root');
         $menu->setChildrenAttribute('class', 'nav-side-menu');
 
-
+        /** @noinspection PhpTraditionalSyntaxArrayLiteralInspection */
         $menu->addChild('Retour au site', array('route' => 'homepage'));
 
         $menu->addChild('Admin', array(
@@ -93,7 +104,12 @@ class Builder implements ContainerAwareInterface
         return $menu;
     }
 
-
+    /**
+     * @param FactoryInterface $factory
+     * @param array            $options
+     *
+     * @return \Knp\Menu\ItemInterface
+     */
     public function mainMenu(FactoryInterface $factory, array $options)
     {
         $menu = $factory->createItem('root');

@@ -8,9 +8,16 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 
+/**
+ * Class UserAdmin
+ *
+ * @package AppBundle\Admin
+ */
 class UserAdmin extends Admin
 {
-
+    /**
+     * {@inheritdoc}
+     */
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
@@ -19,11 +26,17 @@ class UserAdmin extends Admin
            ;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper->add('username');
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper->addIdentifier('username')
@@ -31,7 +44,9 @@ class UserAdmin extends Admin
 
     }
 
-
+    /**
+     * {@inheritdoc}
+     */
     public function toString($object)
     {
         return $object instanceof User
