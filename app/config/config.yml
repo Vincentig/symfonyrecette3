@@ -119,4 +119,3 @@ sonata_admin:
     title: Recettes
     templates:
         layout: ::layout_back.html.twig
-
