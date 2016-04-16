@@ -11,6 +11,7 @@ namespace AppBundle\Admin;
 use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Show\ShowMapper;
 
 /**
  * Class FamilleAdmin
@@ -20,6 +21,8 @@ use Sonata\AdminBundle\Form\FormMapper;
 class FamilleAdmin extends Admin
 {
     /**
+     * configureListFields
+     *
      * @param ListMapper $list
      */
     public function configureListFields(ListMapper $list)
@@ -36,10 +39,27 @@ class FamilleAdmin extends Admin
            ));
     }
 
+    /**
+     * configureShowFields
+     *
+     * @param ShowMapper $showMapper
+     */
+    protected function configureShowFields(ShowMapper $showMapper)
+    {
+        $showMapper
+            ->add('id')
+            ->add('nomFamille')
+        ;
+    }
+
+    /**
+     * configureFormFields
+     *
+     * @param FormMapper $form
+     */
     public function configureFormFields(FormMapper $form)
     {
         $form
             ->add('nomFamille', 'text');
     }
-
 }

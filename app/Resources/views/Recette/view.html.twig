@@ -53,7 +53,7 @@
         {% endfor %}
     </p>
 
-    {% if recette.boisson is not null %}<p><b>Boisson d'accompagnement</b> : {{ recette.boisson }}</p> {% endif %}
+    {% if recette.boissons is not null %}<p><b>Boisson d'accompagnement</b> : {{ recette.boissons.first }}</p> {% endif %}
     {% if recette.notreTruc is not null %}<p><b>Notre truc</b> : {{ recette.notreTruc }}</p> {% endif %}
     {% if recette.conseilAchat is not null %}<p><b>Conseils d'achat</b> : {{ recette.conseilAchat }}</p> {% endif %}
     {% else %}

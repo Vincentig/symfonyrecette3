@@ -24,6 +24,8 @@ class RecetteRepository extends EntityRepository
             ->createQueryBuilder('r')
             ->leftJoin('r.categorie', 'cat')
             ->addSelect('cat')
+            ->leftJoin('r.boissons', 'boi')
+            ->addSelect('boi')
             ->leftJoin('r.famille','fam')
             ->addSelect('fam')
             ->leftJoin('r.pays','pay')

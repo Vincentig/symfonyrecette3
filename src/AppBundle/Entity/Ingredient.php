@@ -24,7 +24,7 @@ class Ingredient
     /**
      * @var string
      *
-     * @ORM\Column(name="nom", type="string", length=255)
+     * @ORM\Column(name="nom", type="string", length=255, unique=true)
      */
     private $nom;
 
@@ -61,6 +61,16 @@ class Ingredient
     public function getNom()
     {
         return $this->nom;
+    }
+
+    /**
+     * __toString
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getNom();
     }
 }
 

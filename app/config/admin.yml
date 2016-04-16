@@ -9,14 +9,39 @@ services:
         tags:
             - { name: sonata.admin, manager_type: orm, group: "Utilisateur", label: User }
 
-    admin.famille:
-        class: AppBundle\Admin\FamilleAdmin
-        arguments: [~, AppBundle\Entity\Famille, ~]
+    admin.boisson:
+        class: AppBundle\Admin\BoissonAdmin
+        arguments: [~, AppBundle\Entity\Boisson, ~]
         tags:
-            - { name: sonata.admin, manager_type: orm, group: "Configuration", label: Famille }
+            - { name: sonata.admin, manager_type: orm, group: "Boissons", label: Boisson }
 
     admin.categorie:
         class: AppBundle\Admin\CategorieAdmin
         arguments: [~, AppBundle\Entity\Categorie, ~]
         tags:
-            - { name: sonata.admin, manager_type: orm, group: "Configuration", label: Categorie }
+            - { name: sonata.admin, manager_type: orm, group: "Catégories", label: Categorie }
+
+    admin.famille:
+        class: AppBundle\Admin\FamilleAdmin
+        arguments: [~, AppBundle\Entity\Famille, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Catégories", label: Famille }
+
+    admin.endroit:
+        class: AppBundle\Admin\EndroitAdmin
+        arguments: [~, AppBundle\Entity\Endroit, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Endroits", label: Endroit }
+
+    admin.ingredient:
+        class: AppBundle\Admin\IngredientAdmin
+        arguments: [~, AppBundle\Entity\Ingredient, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Ingrédients", label: Ingrédient }
+
+    admin.unite_mesure:
+        class: AppBundle\Admin\UniteMesureAdmin
+        arguments: [~, AppBundle\Entity\UniteMesure, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Ingrédients", label: UniteMesure }
+

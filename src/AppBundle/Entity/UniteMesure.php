@@ -93,5 +93,15 @@ class UniteMesure
     {
         return $this->abreviation;
     }
+
+    /**
+     * __toString
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getLibelle();
+    }
 }
 

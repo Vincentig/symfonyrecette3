@@ -60,7 +60,17 @@ class Categorie
      */
     public function getNomCategorie()
     {
-        return $this->nomCategorie;
+        return ucfirst($this->nomCategorie);
+    }
+
+    /**
+     * __toString
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getNomCategorie();
     }
 }
 

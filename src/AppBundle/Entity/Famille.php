@@ -60,7 +60,15 @@ class Famille
      */
     public function getNomFamille()
     {
-        return $this->nomFamille;
+        return ucfirst($this->nomFamille);
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getNomFamille();
     }
 }
 
