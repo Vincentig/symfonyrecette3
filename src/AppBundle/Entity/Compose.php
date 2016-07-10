@@ -14,7 +14,7 @@ class Compose
 {
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Ingredient")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Ingredient", cascade={"persist"})
      * @ORM\Id
      * @ORM\JoinColumn(nullable=false)
      */
@@ -253,6 +253,7 @@ class Compose
     public function setRecette(Recette $recette)
     {
         $this->recette = $recette;
+        $recette->addRecetteCompose($this);
 
         return $this;
     }
@@ -291,5 +292,10 @@ class Compose
     public function getUniteMesure()
     {
         return $this->uniteMesure;
+    }
+
+    function __toString()
+    {
+        return $this->getRecette()->getNom().'_compose_'.$this->getIngredient()->getNom();
     }
 }

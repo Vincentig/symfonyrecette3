@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\OrderBy;
 
 /**
  * Recette
@@ -130,7 +131,8 @@ class Recette
     private $pays;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Etape", mappedBy="recette", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Etape", mappedBy="recette", cascade={"persist"}, orphanRemoval=true)
+     * @OrderBy({"numero" = "ASC"})
      */
     private $etapes;
 
@@ -140,7 +142,7 @@ class Recette
     private $image;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\RecetteEndroit", mappedBy="recette", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\RecetteEndroit", mappedBy="recette", cascade={"persist"}, orphanRemoval=true)
      */
     private $recetteEndroits;
 
@@ -573,7 +575,22 @@ class Recette
      */
     public function addEtape(Etape $etape)
     {
+        $etape->setRecette($this);
         $this->etapes[] = $etape;
+
+        return $this;
+    }
+
+    /**
+     * Add etape
+     *
+     * @param \AppBundle\Entity\Etape $etape
+     *
+     * @return Recette
+     */
+    public function setEtapes($etapes)
+    {
+        $this->etapes = $etapes;
 
         return $this;
     }
@@ -631,6 +648,7 @@ class Recette
      */
     public function addRecetteEndroit(RecetteEndroit $recetteEndroit)
     {
+        $recetteEndroit->setRecette($this);
         $this->recetteEndroits[] = $recetteEndroit;
 
         return $this;
@@ -688,5 +706,10 @@ class Recette
     public function getRecetteComposes()
     {
         return $this->recetteComposes;
+    }
+
+    function __toString()
+    {
+        return $this->getNom();
     }
 }

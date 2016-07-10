@@ -124,5 +124,13 @@ class Pays
     {
         return $this->isocode3;
     }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getNom();
+    }
 }
 

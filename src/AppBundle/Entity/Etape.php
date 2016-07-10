@@ -36,7 +36,7 @@ class Etape
     private $description;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Recette", inversedBy="etapes")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Recette", inversedBy="etapes", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $recette;
@@ -121,5 +121,14 @@ class Etape
     public function getRecette()
     {
         return $this->recette;
+    }
+
+    /**
+     * __toString
+     *
+     */
+    function __toString()
+    {
+        return $this->getRecette()->getNom().'_Etape_'.$this->getNumero();
     }
 }
