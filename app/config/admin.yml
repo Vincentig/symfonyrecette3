@@ -68,7 +68,11 @@ services:
         arguments: [~, AppBundle\Entity\Compose, ~]
         tags:
             - { name: sonata.admin, manager_type: orm, group: "Ingredients", label: "Recette compose ", show_in_dashboard: false}
-
+    admin.type_quantite:
+        class: AppBundle\Admin\TypeQuantiteAdmin
+        arguments: [~, AppBundle\Entity\TypeQuantite, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "type_quantite", label: 'type_quantite', show_in_dashboard: false}
     admin.recette:
         class: AppBundle\Admin\RecettteAdmin
         arguments: [~, AppBundle\Entity\Recette, SonataAdminBundle:CRUD]

@@ -48,7 +48,7 @@ class RecettteAdmin extends Admin
            ->add('cout')
            ->add('quantiteMin')
            ->add('quantiteMax')
-           ->add('quantiteType')
+           ->add('typeQuantite', 'sonata_type_model')
 
            ->add('tempsCuissonMin')
            ->add('tempsCuissonMax')

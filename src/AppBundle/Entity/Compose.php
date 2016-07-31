@@ -17,6 +17,7 @@ class Compose
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Ingredient", cascade={"persist"})
      * @ORM\Id
      * @ORM\JoinColumn(nullable=false)
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $ingredient;
 
@@ -24,6 +25,7 @@ class Compose
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Recette", inversedBy="recetteComposes")
      * @ORM\Id
      * @ORM\JoinColumn(nullable=false)
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $recette;
 
@@ -253,7 +255,7 @@ class Compose
     public function setRecette(Recette $recette)
     {
         $this->recette = $recette;
-        $recette->addRecetteCompose($this);
+//        $recette->addRecetteCompose($this);
 
         return $this;
     }

@@ -147,9 +147,14 @@ class Recette
     private $recetteEndroits;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Compose", mappedBy="recette", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Compose", mappedBy="recette", cascade={"persist"}, orphanRemoval=true)
      */
     private $recetteComposes;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="TypeQuantite", cascade={"persist"})
+     */
+    private $typeQuantite;
 
     /**
      * Constructor
@@ -683,6 +688,7 @@ class Recette
      */
     public function addRecetteCompose(Compose $recetteCompose)
     {
+        $recetteCompose->setRecette($this);
         $this->recetteComposes[] = $recetteCompose;
 
         return $this;
@@ -711,5 +717,29 @@ class Recette
     function __toString()
     {
         return $this->getNom();
+    }
+
+    /**
+     * Set typeQuantite
+     *
+     * @param \AppBundle\Entity\TypeQuantite $typeQuantite
+     *
+     * @return Recette
+     */
+    public function setTypeQuantite(\AppBundle\Entity\TypeQuantite $typeQuantite)
+    {
+        $this->typeQuantite = $typeQuantite;
+
+        return $this;
+    }
+
+    /**
+     * Get typeQuantite
+     *
+     * @return \AppBundle\Entity\TypeQuantite
+     */
+    public function getTypeQuantite()
+    {
+        return $this->typeQuantite;
     }
 }

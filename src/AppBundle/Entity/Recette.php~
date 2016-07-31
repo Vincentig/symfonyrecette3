@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\OrderBy;
 
 /**
  * Recette
@@ -113,7 +114,6 @@ class Recette
      */
     private $boissons;
 
-
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Categorie", cascade={"persist"})
      */
@@ -131,7 +131,8 @@ class Recette
     private $pays;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Etape", mappedBy="recette", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Etape", mappedBy="recette", cascade={"persist"}, orphanRemoval=true)
+     * @OrderBy({"numero" = "ASC"})
      */
     private $etapes;
 
@@ -141,7 +142,7 @@ class Recette
     private $image;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\RecetteEndroit", mappedBy="recette", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\RecetteEndroit", mappedBy="recette", cascade={"persist"}, orphanRemoval=true)
      */
     private $recetteEndroits;
 
@@ -150,5 +151,571 @@ class Recette
      */
     private $recetteComposes;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="TypeQuantite", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $typeQuantite;
 
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->boissons = new ArrayCollection();
+        $this->etapes = new ArrayCollection();
+        $this->recetteEndroits = new ArrayCollection();
+        $this->recetteComposes = new ArrayCollection();
+    }
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set numero
+     *
+     * @param integer $numero
+     *
+     * @return Recette
+     */
+    public function setNumero($numero)
+    {
+        $this->numero = $numero;
+
+        return $this;
+    }
+
+    /**
+     * Get numero
+     *
+     * @return integer
+     */
+    public function getNumero()
+    {
+        return $this->numero;
+    }
+
+    /**
+     * Set nom
+     *
+     * @param string $nom
+     *
+     * @return Recette
+     */
+    public function setNom($nom)
+    {
+        $this->nom = $nom;
+
+        return $this;
+    }
+
+    /**
+     * Get nom
+     *
+     * @return string
+     */
+    public function getNom()
+    {
+        return $this->nom;
+    }
+
+    /**
+     * Set difficulte
+     *
+     * @param string $difficulte
+     *
+     * @return Recette
+     */
+    public function setDifficulte($difficulte)
+    {
+        $this->difficulte = $difficulte;
+
+        return $this;
+    }
+
+    /**
+     * Get difficulte
+     *
+     * @return string
+     */
+    public function getDifficulte()
+    {
+        return $this->difficulte;
+    }
+
+    /**
+     * Set tempsRealisation
+     *
+     * @param string $tempsRealisation
+     *
+     * @return Recette
+     */
+    public function setTempsRealisation($tempsRealisation)
+    {
+        $this->tempsRealisation = $tempsRealisation;
+
+        return $this;
+    }
+
+    /**
+     * Get tempsRealisation
+     *
+     * @return string
+     */
+    public function getTempsRealisation()
+    {
+        return $this->tempsRealisation;
+    }
+
+    /**
+     * Set tempsCuissonMin
+     *
+     * @param \DateTime $tempsCuissonMin
+     *
+     * @return Recette
+     */
+    public function setTempsCuissonMin($tempsCuissonMin)
+    {
+        $this->tempsCuissonMin = $tempsCuissonMin;
+
+        return $this;
+    }
+
+    /**
+     * Get tempsCuissonMin
+     *
+     * @return \DateTime
+     */
+    public function getTempsCuissonMin()
+    {
+        return $this->tempsCuissonMin;
+    }
+
+    /**
+     * Set tempsCuissonMax
+     *
+     * @param \DateTime $tempsCuissonMax
+     *
+     * @return Recette
+     */
+    public function setTempsCuissonMax($tempsCuissonMax)
+    {
+        $this->tempsCuissonMax = $tempsCuissonMax;
+
+        return $this;
+    }
+
+    /**
+     * Get tempsCuissonMax
+     *
+     * @return \DateTime
+     */
+    public function getTempsCuissonMax()
+    {
+        return $this->tempsCuissonMax;
+    }
+
+    /**
+     * Set cout
+     *
+     * @param string $cout
+     *
+     * @return Recette
+     */
+    public function setCout($cout)
+    {
+        $this->cout = $cout;
+
+        return $this;
+    }
+
+    /**
+     * Get cout
+     *
+     * @return string
+     */
+    public function getCout()
+    {
+        return $this->cout;
+    }
+
+    /**
+     * Set notreTruc
+     *
+     * @param string $notreTruc
+     *
+     * @return Recette
+     */
+    public function setNotreTruc($notreTruc)
+    {
+        $this->notreTruc = $notreTruc;
+
+        return $this;
+    }
+
+    /**
+     * Get notreTruc
+     *
+     * @return string
+     */
+    public function getNotreTruc()
+    {
+        return $this->notreTruc;
+    }
+
+    /**
+     * Set conseilAchat
+     *
+     * @param string $conseilAchat
+     *
+     * @return Recette
+     */
+    public function setConseilAchat($conseilAchat)
+    {
+        $this->conseilAchat = $conseilAchat;
+
+        return $this;
+    }
+
+    /**
+     * Get conseilAchat
+     *
+     * @return string
+     */
+    public function getConseilAchat()
+    {
+        return $this->conseilAchat;
+    }
+
+    /**
+     * Set quantiteMin
+     *
+     * @param integer $quantiteMin
+     *
+     * @return Recette
+     */
+    public function setQuantiteMin($quantiteMin)
+    {
+        $this->quantiteMin = $quantiteMin;
+
+        return $this;
+    }
+
+    /**
+     * Get quantiteMin
+     *
+     * @return integer
+     */
+    public function getQuantiteMin()
+    {
+        return $this->quantiteMin;
+    }
+
+    /**
+     * Set quantiteMax
+     *
+     * @param integer $quantiteMax
+     *
+     * @return Recette
+     */
+    public function setQuantiteMax($quantiteMax)
+    {
+        $this->quantiteMax = $quantiteMax;
+
+        return $this;
+    }
+
+    /**
+     * Get quantiteMax
+     *
+     * @return integer
+     */
+    public function getQuantiteMax()
+    {
+        return $this->quantiteMax;
+    }
+
+    /**
+     * Set quantiteType
+     *
+     * @param string $quantiteType
+     *
+     * @return Recette
+     */
+    public function setQuantiteType($quantiteType)
+    {
+        $this->quantiteType = $quantiteType;
+
+        return $this;
+    }
+
+    /**
+     * Get quantiteType
+     *
+     * @return string
+     */
+    public function getQuantiteType()
+    {
+        return $this->quantiteType;
+    }
+
+    /**
+     * Add boisson
+     *
+     * @param \AppBundle\Entity\Boisson $boisson
+     *
+     * @return Recette
+     */
+    public function addBoisson(Boisson $boisson)
+    {
+        $this->boissons[] = $boisson;
+
+        return $this;
+    }
+
+    /**
+     * Remove boisson
+     *
+     * @param \AppBundle\Entity\Boisson $boisson
+     */
+    public function removeBoisson(Boisson $boisson)
+    {
+        $this->boissons->removeElement($boisson);
+    }
+
+    /**
+     * Get boissons
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getBoissons()
+    {
+        return $this->boissons;
+    }
+
+    /**
+     * Set categorie
+     *
+     * @param \AppBundle\Entity\Categorie $categorie
+     *
+     * @return Recette
+     */
+    public function setCategorie(Categorie $categorie = null)
+    {
+        $this->categorie = $categorie;
+
+        return $this;
+    }
+
+    /**
+     * Get categorie
+     *
+     * @return \AppBundle\Entity\Categorie
+     */
+    public function getCategorie()
+    {
+        return $this->categorie;
+    }
+
+    /**
+     * Set famille
+     *
+     * @param \AppBundle\Entity\Famille $famille
+     *
+     * @return Recette
+     */
+    public function setFamille(Famille $famille)
+    {
+        $this->famille = $famille;
+
+        return $this;
+    }
+
+    /**
+     * Get famille
+     *
+     * @return \AppBundle\Entity\Famille
+     */
+    public function getFamille()
+    {
+        return $this->famille;
+    }
+
+    /**
+     * Set pays
+     *
+     * @param \AppBundle\Entity\Pays $pays
+     *
+     * @return Recette
+     */
+    public function setPays(Pays $pays = null)
+    {
+        $this->pays = $pays;
+
+        return $this;
+    }
+
+    /**
+     * Get pays
+     *
+     * @return \AppBundle\Entity\Pays
+     */
+    public function getPays()
+    {
+        return $this->pays;
+    }
+
+    /**
+     * Add etape
+     *
+     * @param \AppBundle\Entity\Etape $etape
+     *
+     * @return Recette
+     */
+    public function addEtape(Etape $etape)
+    {
+        $etape->setRecette($this);
+        $this->etapes[] = $etape;
+
+        return $this;
+    }
+
+    /**
+     * Add etape
+     *
+     * @param \AppBundle\Entity\Etape $etape
+     *
+     * @return Recette
+     */
+    public function setEtapes($etapes)
+    {
+        $this->etapes = $etapes;
+
+        return $this;
+    }
+
+    /**
+     * Remove etape
+     *
+     * @param \AppBundle\Entity\Etape $etape
+     */
+    public function removeEtape(Etape $etape)
+    {
+        $this->etapes->removeElement($etape);
+    }
+
+    /**
+     * Get etapes
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getEtapes()
+    {
+        return $this->etapes;
+    }
+
+    /**
+     * Set image
+     *
+     * @param \AppBundle\Entity\Image $image
+     *
+     * @return Recette
+     */
+    public function setImage(Image $image = null)
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * Get image
+     *
+     * @return \AppBundle\Entity\Image
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    /**
+     * Add recetteEndroit
+     *
+     * @param \AppBundle\Entity\RecetteEndroit $recetteEndroit
+     *
+     * @return Recette
+     */
+    public function addRecetteEndroit(RecetteEndroit $recetteEndroit)
+    {
+        $recetteEndroit->setRecette($this);
+        $this->recetteEndroits[] = $recetteEndroit;
+
+        return $this;
+    }
+
+    /**
+     * Remove recetteEndroit
+     *
+     * @param \AppBundle\Entity\RecetteEndroit $recetteEndroit
+     */
+    public function removeRecetteEndroit(RecetteEndroit $recetteEndroit)
+    {
+        $this->recetteEndroits->removeElement($recetteEndroit);
+    }
+
+    /**
+     * Get recetteEndroits
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getRecetteEndroits()
+    {
+        return $this->recetteEndroits;
+    }
+
+    /**
+     * Add recetteCompose
+     *
+     * @param \AppBundle\Entity\Compose $recetteCompose
+     *
+     * @return Recette
+     */
+    public function addRecetteCompose(Compose $recetteCompose)
+    {
+        $this->recetteComposes[] = $recetteCompose;
+
+        return $this;
+    }
+
+    /**
+     * Remove recetteCompose
+     *
+     * @param \AppBundle\Entity\Compose $recetteCompose
+     */
+    public function removeRecetteCompose(Compose $recetteCompose)
+    {
+        $this->recetteComposes->removeElement($recetteCompose);
+    }
+
+    /**
+     * Get recetteComposes
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getRecetteComposes()
+    {
+        return $this->recetteComposes;
+    }
+
+    function __toString()
+    {
+        return $this->getNom();
+    }
 }
