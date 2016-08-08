@@ -40,16 +40,16 @@ class Recette
     private $nom;
 
     /**
-     * @var string
+     * @var integer
      *
-     * @ORM\Column(name="difficulte", type="string", length=255)
+     * @ORM\Column(name="difficulte", type="integer")
      */
     private $difficulte;
 
     /**
-     * @var \string
+     * @var integer
      *
-     * @ORM\Column(name="temps_realisation", type="string", length=255)
+     * @ORM\Column(name="temps_realisation", type="integer")
      */
     private $tempsRealisation;
 
@@ -68,9 +68,9 @@ class Recette
     private $tempsCuissonMax;
 
     /**
-     * @var string
+     * @var integer
      *
-     * @ORM\Column(name="cout", type="string", length=255)
+     * @ORM\Column(name="cout", type="integer")
      */
     private $cout;
 

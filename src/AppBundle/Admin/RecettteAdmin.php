@@ -9,6 +9,7 @@
 namespace AppBundle\Admin;
 
 use AppBundle\services\RecetteManager;
+use blackknight467\StarRatingBundle\Form\RatingType;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
@@ -58,9 +59,9 @@ class RecettteAdmin extends AbstractAdmin
            ->add('categorie', null, array('attr' => array('class' => 'col-md-6')))
            ->add('famille', null, array('attr' => array('class' => 'col-md-6')))
            ->add('pays', 'sonata_type_model', array('required'=>false))
-           ->add('tempsRealisation')
-           ->add('difficulte')
-           ->add('cout')
+           ->add('tempsRealisation', RatingType::class)
+           ->add('difficulte', RatingType::class)
+           ->add('cout', RatingType::class)
            ->add('quantiteMin')
            ->add('quantiteMax')
            ->add('quantiteType', 'sonata_type_model')

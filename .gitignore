@@ -15,5 +15,8 @@
 /vendor/
 /web/bundles/
 /web/uploads/
+/web/css/
+/web/js/
+/web/Images/
 /.idea/*
 *~

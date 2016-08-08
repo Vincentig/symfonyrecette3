@@ -15,7 +15,7 @@
         {% media recette.image, 'big' %}
         {#<img src="{{ asset(recette.image.url) }}" alt="{{ recette.image.alt }}" width="300"  />#}
 
-    <p>{{ recette.tempsRealisation }} - {{ recette.difficulte }} - {{ recette.cout }}</p>
+    <div>- Durée : {{ recette.tempsRealisation|rating }} - Difficulte : {{ recette.difficulte|rating }} - Prix : {{ recette.cout|rating }}</div>
 
     <ul>
         <li>POUR : {{ recette.quantiteMin }} {% if recette.quantiteMax is not null %}à {{ recette.quantiteMax }}{% endif %} {{ recette.quantiteType }}</li>

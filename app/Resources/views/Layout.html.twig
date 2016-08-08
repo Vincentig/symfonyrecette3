@@ -17,17 +17,13 @@
         <!-- si css dans un bundle
             '@BundleName/Ressourses/Public/css/style.css'-->
         {% stylesheets filter="cssrewrite"
-        '@AppBundle/Resources/public/css/*' %}
+        '@AppBundle/Resources/public/css/*'
+        'bundles/starrating/css/rating.css'
+        'https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css'%}
         <link rel="stylesheet" href="{{ asset_url }}"/>
         {% endstylesheets %}
 
     {% endblock %}
-
-    {# {% javascripts
-         'js/script.js'
-     %}
-     <script src="{{asset_url}}"/></script>
-     {% endjavascripts %}#}
 
 
     <title>{% block title %} Mes recettes {% endblock %}</title>
@@ -109,6 +105,13 @@
 
 
 </script>
+
+{% javascripts
+'@StarRatingBundle/Resources/public/js/rating.js'
+%}
+<script src="{{asset_url}}"></script>
+
+{% endjavascripts %}
 
 </body>
 </html>
