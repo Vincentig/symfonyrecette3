@@ -10,3 +10,7 @@ services:
 #        class: AppBundle\Directory\ClassName
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
 
+    recette.manager:
+        class: AppBundle\services\RecetteManager
+        arguments:
+            - '@=service("doctrine.orm.default_entity_manager").getRepository("AppBundle:Recette")'

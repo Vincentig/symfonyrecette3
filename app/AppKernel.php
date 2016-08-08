@@ -28,6 +28,18 @@ class AppKernel extends Kernel
             new Sonata\AdminBundle\SonataAdminBundle(),
 
             new RaulFraile\Bundle\LadybugBundle\RaulFraileLadybugBundle(),
+            new Sonata\EasyExtendsBundle\SonataEasyExtendsBundle(),
+
+            new Sonata\ClassificationBundle\SonataClassificationBundle(),
+
+            new Application\Sonata\ClassificationBundle\ApplicationSonataClassificationBundle(),
+
+            new Sonata\MediaBundle\SonataMediaBundle(),
+            new Application\Sonata\MediaBundle\ApplicationSonataMediaBundle(),
+            new Sonata\IntlBundle\SonataIntlBundle(),
+
+            // You need to add this dependency to make media functional
+            new JMS\SerializerBundle\JMSSerializerBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

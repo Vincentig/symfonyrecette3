@@ -27,14 +27,17 @@
         "sensio/distribution-bundle": "^5.0",
         "sensio/framework-extra-bundle": "^3.0.2",
         "incenteev/composer-parameter-handler": "^2.0",
-        "symfony/assetic-bundle": "^2.7",
+        "symfony/assetic-bundle": "~2.7",
         "friendsofsymfony/user-bundle": "~2.0@dev",
         "stof/doctrine-extensions-bundle": "~1.2@dev",
         "liip/imagine-bundle": "^1.4",
         "knplabs/knp-menu-bundle": "^2.1",
-        "sonata-project/admin-bundle": "~2.4@dev",
-        "sonata-project/doctrine-orm-admin-bundle": "~2.4@dev",
-        "raulfraile/ladybug-bundle": "^1.0"
+        "sonata-project/admin-bundle": "~3.0",
+        "sonata-project/doctrine-orm-admin-bundle": "~3.0",
+        "raulfraile/ladybug-bundle": "~1",
+        "sonata-project/media-bundle": "^3.1",
+        "sonata-project/easy-extends-bundle": "^2.1",
+        "sonata-project/classification-bundle": "^3.1"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",

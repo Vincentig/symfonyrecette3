@@ -8,12 +8,26 @@
 
 namespace AppBundle\Admin;
 
-use Sonata\AdminBundle\Admin\Admin;
+use AppBundle\services\RecetteManager;
+use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\CoreBundle\Validator\ErrorElement;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 
-class RecettteAdmin extends Admin
+class RecettteAdmin extends AbstractAdmin
 {
+    /**
+     * @var RecetteManager
+     */
+    protected $recetteManager;
+
+    public function setRecetteManager($recetteManager)
+    {
+        $this->recetteManager = $recetteManager;
+    }
+
     public function configureListFields(ListMapper $list)
     {
        $list
@@ -30,6 +44,7 @@ class RecettteAdmin extends Admin
     {
        $form
            ->with('partie 1', array('class' => 'col-md-6'))
+           ->add('numero', 'integer', ['required'=>false])
            ->add(
                'nom',
                null,
@@ -42,13 +57,13 @@ class RecettteAdmin extends Admin
            )
            ->add('categorie', null, array('attr' => array('class' => 'col-md-6')))
            ->add('famille', null, array('attr' => array('class' => 'col-md-6')))
-           ->add('pays', 'sonata_type_model')
+           ->add('pays', 'sonata_type_model', array('required'=>false))
            ->add('tempsRealisation')
            ->add('difficulte')
            ->add('cout')
            ->add('quantiteMin')
            ->add('quantiteMax')
-           ->add('typeQuantite', 'sonata_type_model')
+           ->add('quantiteType', 'sonata_type_model')
 
            ->add('tempsCuissonMin')
            ->add('tempsCuissonMax')
@@ -65,6 +80,7 @@ class RecettteAdmin extends Admin
            ->add('recetteEndroits','sonata_type_collection', array('by_reference' => false), array(
                'edit' => 'inline',
                'inline' => 'table',
+               'required' => false,
            ))
 
 
@@ -75,7 +91,34 @@ class RecettteAdmin extends Admin
                 'edit' => 'inline',
                 'inline' => 'table',
             ))
+           ->end()
+           ->with('partie 4', array('class' => 'col-md-12'))
+           ->add('image', 'sonata_media_type', array(
+               'provider' => 'sonata.media.provider.image',
+               'context' => 'default'
+           ), array()
+           );
 
        ;
+
+        $form->getFormBuilder()->addEventListener(FormEvents::PRE_SUBMIT, array($this,'onPreSubmit'));
+    }
+
+    public function onPreSubmit(FormEvent $event)
+    {
+        if($event->getData()['numero'] == '' && $event->getData()['famille'] && $event->getData()['categorie']) {
+            $numero = $this->recetteManager->getLastNumberWithFamilyAndCategory( $event->getData()['famille'], $event->getData()['categorie']);
+
+            $event->setData(array_merge($event->getData(), ['numero'=>$numero]));
+        }
+    }
+
+    public function validate(ErrorElement $errorElement,  $media)
+    {
+        $errorElement
+            ->with('image.binaryContent')
+            ->assertFile(array('maxSize' => '3000000'))
+            ->end()
+            ;
     }
 }

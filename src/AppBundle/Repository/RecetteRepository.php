@@ -2,6 +2,8 @@
 
 namespace AppBundle\Repository;
 
+use AppBundle\Entity\Categorie;
+use AppBundle\Entity\Famille;
 use AppBundle\Entity\Recette;
 use Doctrine\ORM\EntityRepository;
 
@@ -42,5 +44,22 @@ class RecetteRepository extends EntityRepository
             ->getQuery()
             ->getResult()
             ;
+    }
+
+    public function findLastNumberWithFamilyAndCategory( $famille, $categorie)
+    {
+        return $this->createQueryBuilder('r')
+            ->select('r.numero')
+            ->leftJoin('r.categorie', 'cat')
+            ->where('cat = :categorie')
+            ->setParameter('categorie', $categorie)
+            ->leftJoin('r.famille','fam')
+            ->andWhere('fam = :famille')
+            ->setParameter('famille', $famille)
+
+            ->orderBy('r.numero', 'DESC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getScalarResult();
     }
 }

@@ -2,9 +2,12 @@
 
 namespace AppBundle\Entity;
 
+use Application\Sonata\MediaBundle\Entity\Media;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\OrderBy;
+
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Recette
@@ -100,9 +103,9 @@ class Recette
     private $quantiteMax;
 
     /**
-     * @var string
+     * @var TypeQuantite
      *
-     * @ORM\Column(name="quantite_type", type="string", length=255)
+     * @ORM\ManyToOne(targetEntity="TypeQuantite", cascade={"persist"})
      */
     private $quantiteType;
 
@@ -131,30 +134,25 @@ class Recette
     private $pays;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Etape", mappedBy="recette", cascade={"persist"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Etape", mappedBy="recette", cascade={"persist", "remove"}, orphanRemoval=true)
      * @OrderBy({"numero" = "ASC"})
      */
     private $etapes;
 
     /**
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Image", cascade={"persist"})
+     * @ORM\OneToOne(targetEntity="Application\Sonata\MediaBundle\Entity\Media", cascade={"persist", "remove"})
      */
     private $image;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\RecetteEndroit", mappedBy="recette", cascade={"persist"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\RecetteEndroit", mappedBy="recette", cascade={"persist", "remove"}, orphanRemoval=true)
      */
     private $recetteEndroits;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Compose", mappedBy="recette", cascade={"persist"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Compose", mappedBy="recette", cascade={"persist", "remove"}, orphanRemoval=true)
      */
     private $recetteComposes;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="TypeQuantite", cascade={"persist"})
-     */
-    private $typeQuantite;
 
     /**
      * Constructor
@@ -623,11 +621,11 @@ class Recette
     /**
      * Set image
      *
-     * @param \AppBundle\Entity\Image $image
+     * @param Media $image
      *
      * @return Recette
      */
-    public function setImage(Image $image = null)
+    public function setImage($image = null)
     {
         $this->image = $image;
 
@@ -720,26 +718,20 @@ class Recette
     }
 
     /**
-     * Set typeQuantite
-     *
-     * @param \AppBundle\Entity\TypeQuantite $typeQuantite
-     *
-     * @return Recette
+     * @return mixed
      */
-    public function setTypeQuantite(\AppBundle\Entity\TypeQuantite $typeQuantite)
+    public function getMedia()
     {
-        $this->typeQuantite = $typeQuantite;
-
-        return $this;
+        return $this->media;
     }
 
     /**
-     * Get typeQuantite
-     *
-     * @return \AppBundle\Entity\TypeQuantite
+     * @param mixed $media
+     * @return Recette
      */
-    public function getTypeQuantite()
+    public function setMedia($media)
     {
-        return $this->typeQuantite;
+        $this->media = $media;
+        return $this;
     }
 }
