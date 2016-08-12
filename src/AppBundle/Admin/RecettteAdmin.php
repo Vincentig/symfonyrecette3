@@ -14,6 +14,9 @@ use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\CoreBundle\Validator\ErrorElement;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 
@@ -45,18 +48,20 @@ class RecettteAdmin extends AbstractAdmin
     {
        $form
            ->with('partie 1', array('class' => 'col-md-6'))
-           ->add('numero', 'integer', ['required'=>false])
+           ->add('numero', IntegerType::class, ['required'=>false, 'label'=> 'admin.recette.label.number'])
            ->add(
                'nom',
-               null,
+               TextType::class,
                array(
-
-               ),
-               array(
-
+                   'label' => 'admin.recette.label.name'
                )
            )
-           ->add('categorie', null, array('attr' => array('class' => 'col-md-6')))
+           ->add('categorie', EntityType::class, array(
+               'attr' => array(
+                   'class' => 'col-md-6'
+               ),
+               'class' => 'AppBundle:Categorie',
+           ))
            ->add('famille', null, array('attr' => array('class' => 'col-md-6')))
            ->add('pays', 'sonata_type_model', array('required'=>false))
            ->add('tempsRealisation', RatingType::class)

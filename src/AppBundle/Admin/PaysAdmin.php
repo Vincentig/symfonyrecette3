@@ -8,7 +8,7 @@
 
 namespace AppBundle\Admin;
 
-use Sonata\AdminBundle\Admin\Admin;
+use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Form\FormMapper;
 
 /**
@@ -16,7 +16,7 @@ use Sonata\AdminBundle\Form\FormMapper;
  *
  * @package AppBundle\Admin
  */
-class PaysAdmin extends Admin
+class PaysAdmin extends AbstractAdmin
 {
     /**
      * configureFormFields

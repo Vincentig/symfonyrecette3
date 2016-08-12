@@ -8,7 +8,7 @@
 
 namespace AppBundle\Admin;
 
-use Sonata\AdminBundle\Admin\Admin;
+use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
@@ -18,7 +18,7 @@ use Sonata\AdminBundle\Show\ShowMapper;
  *
  * @package AppBundle\Admin
  */
-class FamilleAdmin extends Admin
+class FamilleAdmin extends AbstractAdmin
 {
     /**
      * configureListFields

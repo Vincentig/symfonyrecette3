@@ -1,0 +1,7 @@
+admin:
+    recette:
+        menu:
+            utilisateurs: Utilisateurs
+        label:
+            numero:   Numéro
+            titre:    Titre

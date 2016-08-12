@@ -9,10 +9,10 @@
 namespace AppBundle\Admin;
 
 
-use Sonata\AdminBundle\Admin\Admin;
+use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Form\FormMapper;
 
-class TypeQuantiteAdmin extends Admin
+class TypeQuantiteAdmin extends AbstractAdmin
 {
     /**
      * configureFormFields

@@ -8,12 +8,12 @@
 
 namespace AppBundle\Admin;
 
-use Sonata\AdminBundle\Admin\Admin;
+use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 
-class CategorieAdmin extends Admin
+class CategorieAdmin extends AbstractAdmin
 {
     /**
 * @param ListMapper $list

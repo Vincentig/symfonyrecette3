@@ -8,10 +8,10 @@
 
 namespace AppBundle\Admin;
 
-use Sonata\AdminBundle\Admin\Admin;
+use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Form\FormMapper;
 
-class EtapeAdmin extends Admin
+class EtapeAdmin extends AbstractAdmin
 {
     public function configureFormFields(FormMapper $form)
     {

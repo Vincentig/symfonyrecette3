@@ -2,7 +2,7 @@
 
 namespace AppBundle\Admin;
 
-use Sonata\AdminBundle\Admin\Admin;
+use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
@@ -13,7 +13,7 @@ use Sonata\AdminBundle\Show\ShowMapper;
  *
  * @package AppBundle\Admin
  */
-class IngredientAdmin extends Admin
+class IngredientAdmin extends AbstractAdmin
 {
     /**
      * configureDatagridFilters
