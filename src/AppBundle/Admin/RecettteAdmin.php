@@ -14,10 +14,10 @@ use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\ModelType;
+use Sonata\CoreBundle\Form\Type\CollectionType;
 use Sonata\CoreBundle\Validator\ErrorElement;
 use Sonata\MediaBundle\Form\Type\MediaType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\Extension\Core\Type\CountryType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -52,7 +52,12 @@ class RecettteAdmin extends AbstractAdmin
     public function configureFormFields(FormMapper $form)
     {
        $form
-           ->with('partie 1', [
+           ->with('partie 1', array('class' => 'col-md-12'))
+           ->add('image', MediaType::class, [
+               'provider' => 'sonata.media.provider.image',
+               'context' => 'default'
+           ])->end()
+           ->with('partie 2', [
                'class' => 'col-md-6'
            ])
            ->add('numero', IntegerType::class, [
@@ -95,25 +100,33 @@ class RecettteAdmin extends AbstractAdmin
                'label' => 'admin.recette.label.quantity_max',
            ])
            ->add('tempsCuissonMin', TimeType::class, [
+               'required' => false,
                'label' => 'admin.recette.label.cooking_time_min',
            ])
            ->add('tempsCuissonMax', TimeType::class, [
-                'label' => 'admin.recette.label.cooking_time_max',
+               'required' => false,
+               'label' => 'admin.recette.label.cooking_time_max',
             ])
-           ->add('notreTruc', TextareaType::class, [
-               'label' => 'admin.recette.label.our_thing',
-           ])
            ->add('boissons', EntityType::class, [
+               'required' => false,
                'class' => 'AppBundle:Boisson',
                'label' => 'admin.recette.label.drink',
                'multiple' => true,
            ])
+           ->add('notreTruc', TextareaType::class, [
+               'required' => false,
+               'label' => 'admin.recette.label.our_thing',
+           ])
+           ->add('conseilAchat', TextareaType::class, [
+               'required' => false,
+               'label' => 'admin.recette.label.buy_advice',
+           ])
            ->end()
 
-           ->with('partie 2', array('class' => 'col-md-6'))
+           ->with('partie 3', array('class' => 'col-md-6'))
            ->add(
                'etapes',
-               'sonata_type_collection',
+               CollectionType::class,
                [
                    'by_reference' => false,
                    'label' => 'admin.recette.label.step',
@@ -126,8 +139,9 @@ class RecettteAdmin extends AbstractAdmin
            )
            ->add(
                'recetteEndroits',
-               'sonata_type_collection',
+               CollectionType::class,
                [
+                   'required' => false,
                    'by_reference' => false,
                    'label' => 'admin.recette.label.places',
                ],
@@ -141,8 +155,8 @@ class RecettteAdmin extends AbstractAdmin
 
            ->end()
 
-           ->with('partie 3', array('class' => 'col-md-12'))
-           ->add('recetteComposes','sonata_type_collection',
+           ->with('partie 4', array('class' => 'col-md-12'))
+           ->add('recetteComposes', CollectionType::class,
                [
                    'by_reference' => false,
                    'label' => 'admin.recette.label.compose',
@@ -153,11 +167,7 @@ class RecettteAdmin extends AbstractAdmin
                 ]
            )
            ->end()
-           ->with('partie 4', array('class' => 'col-md-12'))
-           ->add('image', MediaType::class, [
-               'provider' => 'sonata.media.provider.image',
-               'context' => 'default'
-           ]);
+           ;
 
        ;
 

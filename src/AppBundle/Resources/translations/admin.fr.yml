@@ -17,6 +17,7 @@ admin:
             cooking_time_min :  Temps de cuisson minimum
             cooking_time_max :  Temps de cuisson maximum
             our_thing  :        Notre truc
+            buy_advice  :       Conseil d'achat
             drink :             Boisson(s)
             step :              Étapes
             places :            Endroits
