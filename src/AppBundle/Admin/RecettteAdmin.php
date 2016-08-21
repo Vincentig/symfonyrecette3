@@ -13,10 +13,15 @@ use blackknight467\StarRatingBundle\Form\RatingType;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Form\Type\ModelType;
 use Sonata\CoreBundle\Validator\ErrorElement;
+use Sonata\MediaBundle\Form\Type\MediaType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\CountryType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 
@@ -47,63 +52,112 @@ class RecettteAdmin extends AbstractAdmin
     public function configureFormFields(FormMapper $form)
     {
        $form
-           ->with('partie 1', array('class' => 'col-md-6'))
-           ->add('numero', IntegerType::class, ['required'=>false, 'label'=> 'admin.recette.label.number'])
-           ->add(
-               'nom',
-               TextType::class,
-               array(
-                   'label' => 'admin.recette.label.name'
-               )
-           )
-           ->add('categorie', EntityType::class, array(
-               'attr' => array(
-                   'class' => 'col-md-6'
-               ),
+           ->with('partie 1', [
+               'class' => 'col-md-6'
+           ])
+           ->add('numero', IntegerType::class, [
+               'required'=>false,
+               'label'=> 'admin.recette.label.number',
+           ])
+           ->add('nom', TextType::class, [
+               'label' => 'admin.recette.label.title',
+           ])
+           ->add('categorie', EntityType::class, [
+               'required' => false,
                'class' => 'AppBundle:Categorie',
-           ))
-           ->add('famille', null, array('attr' => array('class' => 'col-md-6')))
-           ->add('pays', 'sonata_type_model', array('required'=>false))
-           ->add('tempsRealisation', RatingType::class)
-           ->add('difficulte', RatingType::class)
-           ->add('cout', RatingType::class)
-           ->add('quantiteMin')
-           ->add('quantiteMax')
-           ->add('quantiteType', 'sonata_type_model')
-
-           ->add('tempsCuissonMin')
-           ->add('tempsCuissonMax')
-           ->add('notreTruc')
-           ->add('boissons')
+               'label' => 'admin.recette.label.category',
+           ])
+           ->add('famille', EntityType::class ,[
+               'class' => 'AppBundle:Famille',
+               'label' => 'admin.recette.label.family',
+           ])
+           ->add('pays', ModelType::class, [
+               'required'=>false,
+               'label' => 'admin.recette.label.country',
+           ])
+           ->add('tempsRealisation', RatingType::class, [
+               'label' => 'admin.recette.label.realisation_time',
+           ])
+           ->add('difficulte', RatingType::class, [
+               'label' => 'admin.recette.label.dificulty',
+           ])
+           ->add('cout', RatingType::class, [
+               'label' => 'admin.recette.label.cost',
+           ])
+           ->add('quantiteType', ModelType::class, [
+               'label' => 'admin.recette.label.quantity_type',
+           ])
+           ->add('quantiteMin', IntegerType::class, [
+               'label' => 'admin.recette.label.quantity_min',
+           ])
+           ->add('quantiteMax', IntegerType::class, [
+               'required' => false,
+               'label' => 'admin.recette.label.quantity_max',
+           ])
+           ->add('tempsCuissonMin', TimeType::class, [
+               'label' => 'admin.recette.label.cooking_time_min',
+           ])
+           ->add('tempsCuissonMax', TimeType::class, [
+                'label' => 'admin.recette.label.cooking_time_max',
+            ])
+           ->add('notreTruc', TextareaType::class, [
+               'label' => 'admin.recette.label.our_thing',
+           ])
+           ->add('boissons', EntityType::class, [
+               'class' => 'AppBundle:Boisson',
+               'label' => 'admin.recette.label.drink',
+               'multiple' => true,
+           ])
            ->end()
 
            ->with('partie 2', array('class' => 'col-md-6'))
-           ->add('etapes', 'sonata_type_collection', array('by_reference' => false), array(
-               'edit' => 'inline',
-               'inline' => 'table',
-               'sortable' => 'numero'
-           ))
-           ->add('recetteEndroits','sonata_type_collection', array('by_reference' => false), array(
-               'edit' => 'inline',
-               'inline' => 'table',
-               'required' => false,
-           ))
+           ->add(
+               'etapes',
+               'sonata_type_collection',
+               [
+                   'by_reference' => false,
+                   'label' => 'admin.recette.label.step',
+               ],
+               [
+                   'edit' => 'inline',
+                   'inline' => 'table',
+                   'sortable' => 'numero',
+               ]
+           )
+           ->add(
+               'recetteEndroits',
+               'sonata_type_collection',
+               [
+                   'by_reference' => false,
+                   'label' => 'admin.recette.label.places',
+               ],
+               [
+                   'edit' => 'inline',
+                   'inline' => 'table',
+                   'required' => false,
+              ]
+            )
 
 
            ->end()
 
            ->with('partie 3', array('class' => 'col-md-12'))
-           ->add('recetteComposes','sonata_type_collection', array('by_reference' => false), array(
-                'edit' => 'inline',
-                'inline' => 'table',
-            ))
+           ->add('recetteComposes','sonata_type_collection',
+               [
+                   'by_reference' => false,
+                   'label' => 'admin.recette.label.compose',
+               ],
+               [
+                    'edit' => 'inline',
+                    'inline' => 'table',
+                ]
+           )
            ->end()
            ->with('partie 4', array('class' => 'col-md-12'))
-           ->add('image', 'sonata_media_type', array(
+           ->add('image', MediaType::class, [
                'provider' => 'sonata.media.provider.image',
                'context' => 'default'
-           ), array()
-           );
+           ]);
 
        ;
 

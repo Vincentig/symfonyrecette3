@@ -6,7 +6,10 @@ use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Form\Type\ModelType;
 use Sonata\AdminBundle\Show\ShowMapper;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 
@@ -45,14 +48,42 @@ class RecetteComposeAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('nombre')
-            ->add('qualiteAvantIngredient')
-            ->add('ingredient', 'sonata_type_model')
-            ->add('qualiteApresIngredient')
-            ->add('qualiteAvantUniteMesure')
-            ->add('quantiteUniteMesure')
-            ->add('qualiteApresUniteMesure')
-            ->add('uniteMesure', 'sonata_type_model', array( 'required' => false))
+            ->add('nombre', IntegerType::class, [
+                'required' => false,
+                'label' => 'admin.recette_compose.label.nombre',
+            ])
+            ->add('qualiteAvantIngredient', TextType::class, [
+                'required' => false,
+                'label' => 'admin.recette_compose.label.qualiteavantingredient',
+
+            ])
+            ->add('ingredient', ModelType::class, [
+                'label' => 'admin.recette_compose.label.ingredient',
+            ])
+            ->add('qualiteApresIngredient', TextType::class, [
+                'required' => false,
+                'label' => 'admin.recette_compose.label.qualiteapresingredient',
+
+            ])
+            ->add('qualiteAvantUniteMesure', TextType::class, [
+                'required' => false,
+                'label' => 'admin.recette_compose.label.qualiteavantunitemesure',
+
+            ])
+            ->add('quantiteUniteMesure', IntegerType::class, [
+                'required' => false,
+                'label' => 'admin.recette_compose.label.quantiteunitemesure',
+
+            ])
+            ->add('qualiteApresUniteMesure', TextType::class, [
+                'required' => false,
+                'label' => 'admin.recette_compose.label.qualiteapresunitemesure',
+
+            ])
+            ->add('uniteMesure', ModelType::class, [
+                'required' => false,
+                'label' => 'admin.recette_compose.label.unitemesure',
+            ])
         ;
 
 //        $objet = $this->getSubject();

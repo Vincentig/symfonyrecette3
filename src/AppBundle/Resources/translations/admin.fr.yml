@@ -1,0 +1,34 @@
+admin:
+    recette:
+        menu:
+            utilisateurs: Utilisateurs
+        label:
+            number:             Numéro
+            title:              Titre
+            category:           Categorie
+            family :            Famille
+            realisation_time:   Temps de réalisation
+            dificulty :         Difficulté
+            country :           Pays
+            cost :              Coût
+            quantity_min :      Quantité minimum
+            quantity_max  :     Quantité maximum
+            quantity_type :     Type de quantité
+            cooking_time_min :  Temps de cuisson minimum
+            cooking_time_max :  Temps de cuisson maximum
+            our_thing  :        Notre truc
+            drink :             Boisson(s)
+            step :              Étapes
+            places :            Endroits
+            compose :           Ingrédients
+    recette_compose:
+        label:
+            nombre:                   Nombre
+            qualiteavantingredient:   Adjectif devant l'ingrédient
+            ingredient:               Ingredient
+            qualiteapresingredient:   Adjectif après l'ingrédient
+            qualiteavantunitemesure:  Adjectif avant l'unité de mesure
+            quantiteunitemesure:      Quantité unité de mesure
+            qualiteapresunitemesure:  Adjectif après l'unité de mesure
+            unitemesure:              Unité de  mesure
+
