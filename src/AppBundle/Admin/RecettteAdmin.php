@@ -91,13 +91,22 @@ class RecettteAdmin extends AbstractAdmin
            ])
            ->add('quantiteType', ModelType::class, [
                'label' => 'admin.recette.label.quantity_type',
+               'attr' => [
+                   'placeholder' => 'Ex: Personne, part, etc....',
+               ]
            ])
            ->add('quantiteMin', IntegerType::class, [
                'label' => 'admin.recette.label.quantity_min',
+               'attr' => [
+                   'placeholder' => 'A utiliser quand valeur unique. Ex: 4 Personnes',
+               ]
            ])
            ->add('quantiteMax', IntegerType::class, [
                'required' => false,
                'label' => 'admin.recette.label.quantity_max',
+               'attr' => [
+                   'placeholder' => 'A utiliser pour un intervale Ex: 4 à 6 Personnes',
+               ]
            ])
            ->add('tempsCuissonMin', TimeType::class, [
                'required' => false,
@@ -107,7 +116,7 @@ class RecettteAdmin extends AbstractAdmin
                'required' => false,
                'label' => 'admin.recette.label.cooking_time_max',
             ])
-           ->add('boissons', EntityType::class, [
+           ->add('boissons', ModelType::class, [
                'required' => false,
                'class' => 'AppBundle:Boisson',
                'label' => 'admin.recette.label.drink',
