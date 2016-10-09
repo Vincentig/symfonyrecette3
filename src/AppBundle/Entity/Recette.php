@@ -129,7 +129,7 @@ class Recette
     private $famille;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Pays" )
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $pays;
 
@@ -548,11 +548,11 @@ class Recette
     /**
      * Set pays
      *
-     * @param \AppBundle\Entity\Pays $pays
+     * @param string $pays
      *
      * @return Recette
      */
-    public function setPays(Pays $pays = null)
+    public function setPays($pays = null)
     {
         $this->pays = $pays;
 
@@ -562,7 +562,7 @@ class Recette
     /**
      * Get pays
      *
-     * @return \AppBundle\Entity\Pays
+     * @return string
      */
     public function getPays()
     {
@@ -587,7 +587,7 @@ class Recette
     /**
      * Add etape
      *
-     * @param \AppBundle\Entity\Etape $etape
+     * @param \AppBundle\Entity\Etape $etapes
      *
      * @return Recette
      */
@@ -712,26 +712,14 @@ class Recette
         return $this->recetteComposes;
     }
 
-    function __toString()
+    /**
+     * __toString
+     *
+     * @return string
+     *
+     */
+    public function __toString()
     {
         return $this->getNom();
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getMedia()
-    {
-        return $this->media;
-    }
-
-    /**
-     * @param mixed $media
-     * @return Recette
-     */
-    public function setMedia($media)
-    {
-        $this->media = $media;
-        return $this;
     }
 }

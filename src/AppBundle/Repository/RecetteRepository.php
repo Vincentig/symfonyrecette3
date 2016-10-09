@@ -30,8 +30,6 @@ class RecetteRepository extends EntityRepository
             ->addSelect('boi')
             ->leftJoin('r.famille','fam')
             ->addSelect('fam')
-            ->leftJoin('r.pays','pay')
-            ->addSelect('pay')
             ->leftJoin('r.image','img')
             ->addSelect('img')
             ->leftJoin('r.etapes','etape')

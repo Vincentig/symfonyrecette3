@@ -16,12 +16,6 @@ services:
         tags:
             - { name: sonata.admin, manager_type: orm, group: "Boissons", label: Boisson }
 
-    admin.pays:
-        class: AppBundle\Admin\PaysAdmin
-        arguments: [~, AppBundle\Entity\Pays, ~]
-        tags:
-            - { name: sonata.admin, manager_type: orm, group: "Pays", label: 'Pays' }
-
     admin.categorie:
         class: AppBundle\Admin\CategorieAdmin
         arguments: [~, AppBundle\Entity\Categorie, ~]
