@@ -18,7 +18,6 @@ use Sonata\CoreBundle\Form\Type\CollectionType;
 use Sonata\CoreBundle\Validator\ErrorElement;
 use Sonata\MediaBundle\Form\Type\MediaType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\Extension\Core\Type\CountryType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -139,7 +138,7 @@ class RecettteAdmin extends AbstractAdmin
             )
             ->add(
                 'pays',
-                CountryType::class,
+                ModelType::class,
                 [
                     'required' => false,
                     'label' => 'admin.recette.label.country',
