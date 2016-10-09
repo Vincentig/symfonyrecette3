@@ -8,10 +8,13 @@
 
 namespace AppBundle\Admin;
 
-
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Form\FormMapper;
 
+/**
+ * Class TypeQuantiteAdmin
+ * @package AppBundle\Admin
+ */
 class TypeQuantiteAdmin extends AbstractAdmin
 {
     /**
@@ -21,9 +24,6 @@ class TypeQuantiteAdmin extends AbstractAdmin
      */
     public function configureFormFields(FormMapper $form)
     {
-        $form
-            ->add('type')
-
-        ;
+        $form->add('type');
     }
 }
