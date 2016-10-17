@@ -26,6 +26,11 @@ use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 
+/**
+ * Class RecettteAdmin
+ *
+ * @package AppBundle\Admin
+ */
 class RecettteAdmin extends AbstractAdmin
 {
     /**
@@ -33,56 +38,52 @@ class RecettteAdmin extends AbstractAdmin
      */
     protected $recetteManager;
 
-    public function setRecetteManager($recetteManager)
+    /**
+     * setRecetteManager
+     *
+     * @param RecetteManager $recetteManager
+     */
+    public function setRecetteManager(RecetteManager $recetteManager)
     {
         $this->recetteManager = $recetteManager;
     }
 
+    /**
+     * configureListFields
+     *
+     * @param ListMapper $list
+     */
     public function configureListFields(ListMapper $list)
     {
         $list
             ->addIdentifier(
                 'nom',
                 'text',
-                array()
+                []
             );
     }
 
+    /**
+     * configureFormFields
+     *
+     * @param FormMapper $form
+     */
     public function configureFormFields(FormMapper $form)
     {
-        $form
-            ->with('partie 1', array('class' => 'col-md-12'))
-            ->add(
-                'image',
-                MediaType::class,
-                [
-                    'provider' => 'sonata.media.provider.image',
-                    'context' => 'default',
-                ]
-            )
-            ->end()
-            ->with(
-                'partie 2',
-                [
-                    'class' => 'col-md-12',
-                ]
-            );
+        $this->buildIMage($form, 1);
+        $this->buildGeneral($form, 2);
+        $this->buildEndroits($form, 3);
+        $this->buildIngrediens($form, 4);
+        $this->buildEtapes($form, 5);
 
-        $this->buildGeneral($form);
-
-        $form->end()
-            ->with('partie 3', array('class' => 'col-md-6'));
-
-        $this->buildEtapes($form);
-        $form->end()
-            ->with('partie 4', array('class' => 'col-md-12'));
-        $this->buildIngrediens($form);
-        $form->end();
-
-
-        $form->getFormBuilder()->addEventListener(FormEvents::PRE_SUBMIT, array($this, 'onPreSubmit'));
+        $form->getFormBuilder()->addEventListener(FormEvents::PRE_SUBMIT, [$this, 'onPreSubmit']);
     }
 
+    /**
+     * onPreSubmit
+     *
+     * @param FormEvent $event
+     */
     public function onPreSubmit(FormEvent $event)
     {
         if ($event->getData()['numero'] == '' && $event->getData()['famille'] && $event->getData()['categorie']) {
@@ -95,6 +96,12 @@ class RecettteAdmin extends AbstractAdmin
         }
     }
 
+    /**
+     * validate
+     *
+     * @param ErrorElement $errorElement
+     * @param mixed        $media
+     */
     public function validate(ErrorElement $errorElement, $media)
     {
         $errorElement
@@ -103,16 +110,29 @@ class RecettteAdmin extends AbstractAdmin
             ->end();
     }
 
-    protected function buildGeneral(FormMapper $form)
+    /**
+     * buildGeneral
+     *
+     * @param FormMapper $form
+     * @param  integer   $order
+     */
+    protected function buildGeneral(FormMapper $form, $order)
     {
-        $form->add(
-            'numero',
-            IntegerType::class,
-            [
-                'required' => false,
-                'label' => 'admin.recette.label.number',
-            ]
-        )
+        $form
+            ->with(
+                'partie '.$order.'.1',
+                [
+                    'class' => 'col-md-6',
+                ]
+            )
+            ->add(
+                'numero',
+                IntegerType::class,
+                [
+                    'required' => false,
+                    'label' => 'admin.recette.label.number',
+                ]
+            )
             ->add(
                 'nom',
                 TextType::class,
@@ -164,6 +184,13 @@ class RecettteAdmin extends AbstractAdmin
                 RatingType::class,
                 [
                     'label' => 'admin.recette.label.cost',
+                ]
+            )
+            ->end()
+            ->with(
+                'partie '.$order.'.2',
+                [
+                    'class' => 'col-md-6',
                 ]
             )
             ->add(
@@ -238,24 +265,112 @@ class RecettteAdmin extends AbstractAdmin
                     'required' => false,
                     'label' => 'admin.recette.label.buy_advice',
                 ]
-            );
+            )
+            ->end();
     }
 
-    protected function buildEtapes(FormMapper $form)
+    /**
+     * buildEtapes
+     *
+     * @param FormMapper $form
+     * @param integer    $order
+     */
+    protected function buildEtapes(FormMapper $form, $order)
     {
-        $form->add(
-            'etapes',
-            CollectionType::class,
-            [
-                'by_reference' => false,
-                'label' => 'admin.recette.label.step',
-            ],
-            [
-                'edit' => 'inline',
-                'inline' => 'table',
-                'sortable' => 'numero',
-            ]
-        )
+        $form
+            ->with(
+                'Partie '.$order,
+                [
+                    'class' => 'col-md-12',
+                ]
+            )
+            ->add(
+                'etapes',
+                CollectionType::class,
+                [
+                    'by_reference' => false,
+                    'label' => 'admin.recette.label.step',
+                ],
+                [
+                    'edit' => 'inline',
+                    'inline' => 'table',
+                    'sortable' => 'numero',
+                ]
+            )
+            ->end();
+    }
+
+    /**
+     * buildIngrediens
+     *
+     * @param FormMapper $form
+     * @param integer    $order
+     */
+    protected function buildIngrediens(FormMapper $form, $order)
+    {
+        $form
+            ->with(
+                'Partie '.$order,
+                [
+                    'class' => 'col-md-12',
+                    'description' => 'Exemple : <ul>
+<li>5(Nombre) belles(Adjectif devant l\'ingrédient) côtes de porc(Ingredient)  de 200(Quantité unité de mesure) grammes(Unité de mesure) </li>
+<li>1(Quantité unité de mesure) grand(Adjectif avant l\'unité de mesure) verre(Unité de mesure) de riz(Ingredient)</li>
+</ul>',
+                ]
+            )
+            ->addHelp('recetteComposes', 'testetre dfgd df ')
+            ->add(
+                'recetteComposes',
+                CollectionType::class,
+                [
+                    'by_reference' => false,
+                    'label' => 'admin.recette.label.compose',
+                ],
+                [
+                    'edit' => 'inline',
+                    'inline' => 'table',
+                ]
+            )
+            ->end();
+    }
+
+    /**
+     * buildIMage
+     *
+     * @param FormMapper $form
+     * @param integer    $order
+     */
+    private function buildIMage(FormMapper $form, $order)
+    {
+        $form
+            ->with('partie '.$order, ['class' => 'col-md-12'])
+            ->add(
+                'image',
+                MediaType::class,
+                [
+                    'provider' => 'sonata.media.provider.image',
+                    'context' => 'default',
+                ]
+            )
+            ->end();
+    }
+
+    /**
+     * buildEndroits
+     *
+     * @param FormMapper $form
+     * @param            $order
+     */
+    private function buildEndroits(FormMapper $form, $order)
+    {
+        $form
+            ->with(
+                'Partie '.$order,
+                [
+                    'class' => 'col-md-12',
+                ]
+            )
             ->add(
                 'recetteEndroits',
                 CollectionType::class,
@@ -269,22 +384,7 @@ class RecettteAdmin extends AbstractAdmin
                     'inline' => 'table',
                     'required' => false,
                 ]
-            );
-    }
-
-    protected function buildIngrediens(FormMapper $form)
-    {
-        $form->add(
-            'recetteComposes',
-            CollectionType::class,
-            [
-                'by_reference' => false,
-                'label' => 'admin.recette.label.compose',
-            ],
-            [
-                'edit' => 'inline',
-                'inline' => 'table',
-            ]
-        );
+            )
+            ->end();
     }
 }
