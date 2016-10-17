@@ -3,12 +3,14 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * TypeQuantite
  *
  * @ORM\Table(name="type_quantite")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\TypeQuantiteRepository")
+ * @UniqueEntity("type")
  */
 class TypeQuantite
 {

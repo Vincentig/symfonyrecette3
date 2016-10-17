@@ -3,12 +3,15 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
 
 /**
  * Endroit
  *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="AppBundle\Repository\EndroitRepository")
+ * @UniqueEntity("nom")
  */
 class Endroit
 {
