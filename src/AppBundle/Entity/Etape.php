@@ -126,8 +126,9 @@ class Etape
     /**
      * __toString
      *
+     * @return string
      */
-    function __toString()
+    public function __toString()
     {
         return $this->getRecette()->getNom().'_Etape_'.$this->getNumero();
     }

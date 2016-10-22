@@ -48,6 +48,7 @@ class RecetteComposeAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
+            ->add('position', 'hidden', ['attr' => ["hidden" => true]])
             ->add('nombre', IntegerType::class, [
                 'required' => false,
                 'label' => 'admin.recette_compose.label.nombre',
@@ -85,15 +86,6 @@ class RecetteComposeAdmin extends AbstractAdmin
                 'label' => 'admin.recette_compose.label.unitemesure',
             ])
         ;
-
-//        $objet = $this->getSubject();
-        $formMapper->getFormBuilder()->addEventListener(FormEvents::PRE_SET_DATA,
-            function (FormEvent $event)  {
-//                ldd($event);
-                //$document = $subject->getDocument();
-
-
-            });
     }
 
     /**

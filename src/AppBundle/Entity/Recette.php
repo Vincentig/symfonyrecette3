@@ -151,6 +151,7 @@ class Recette
 
     /**
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Compose", mappedBy="recette", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @OrderBy({"position" = "ASC"})
      */
     private $recetteComposes;
 

@@ -14,6 +14,10 @@ class Compose
 {
 
     /**
+     * ingrédient
+     *
+     * @var \AppBundle\Entity\Ingredient
+     *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Ingredient", cascade={"persist"})
      * @ORM\Id
      * @ORM\JoinColumn(nullable=false)
@@ -22,6 +26,10 @@ class Compose
     private $ingredient;
 
     /**
+     * recette
+     *
+     * @var \AppBundle\Entity\Recette
+     *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Recette", inversedBy="recetteComposes")
      * @ORM\Id
      * @ORM\JoinColumn(nullable=false)
@@ -30,6 +38,8 @@ class Compose
     private $recette;
 
     /**
+     * nombre
+     *
      * @var integer
      *
      * @ORM\Column(name="nombre", type="integer", nullable=true)
@@ -37,6 +47,8 @@ class Compose
     private $nombre;
 
     /**
+     * quantité unite de mesure
+     *
      * @var integer
      *
      * @ORM\Column(name="quantiteUniteMesure", type="integer", nullable=true)
@@ -44,6 +56,8 @@ class Compose
     private $quantiteUniteMesure;
 
     /**
+     * qualite avant ingredient
+     *
      * @var string
      *
      * @ORM\Column(name="qualiteAvantIngredient", type="string", length=255, nullable=true)
@@ -51,6 +65,8 @@ class Compose
     private $qualiteAvantIngredient;
 
     /**
+     * qualite après ingredient
+     *
      * @var string
      *
      * @ORM\Column(name="qualiteApresIngredient", type="string", length=255, nullable=true)
@@ -58,6 +74,8 @@ class Compose
     private $qualiteApresIngredient;
 
     /**
+     * qualite avant unité de mesure
+     *
      * @var string
      *
      * @ORM\Column(name="qualiteAvantUniteMesure", type="string", length=255, nullable=true)
@@ -65,6 +83,8 @@ class Compose
     private $qualiteAvantUniteMesure;
 
     /**
+     * qualite Apres Unité de Mesure
+     *
      * @var string
      *
      * @ORM\Column(name="qualiteApresUniteMesure", type="string", length=255, nullable=true)
@@ -72,10 +92,22 @@ class Compose
     private $qualiteApresUniteMesure;
 
     /**
+     * unité de mesure
+     *
+     * @var \AppBundle\Entity\UniteMesure
+     *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\UniteMesure")
      */
     private $uniteMesure;
 
+    /**
+     * position
+     *
+     * @var integer
+     *
+     * @ORM\Column(name="position", type="integer")
+     */
+    private $position;
 
     /**
      * Set nombre
@@ -296,7 +328,36 @@ class Compose
         return $this->uniteMesure;
     }
 
-    function __toString()
+    /**
+     * get Position
+     *
+     * @return int
+     */
+    public function getPosition()
+    {
+        return $this->position;
+    }
+
+    /**
+     * set Position
+     *
+     * @param int $position
+     *
+     * @return Compose
+     */
+    public function setPosition($position)
+    {
+        $this->position = $position;
+
+        return $this;
+    }
+
+    /**
+     * __toString
+     *
+     * @return string
+     */
+    public function __toString()
     {
         return $this->getRecette()->getNom().'_compose_'.$this->getIngredient()->getNom();
     }

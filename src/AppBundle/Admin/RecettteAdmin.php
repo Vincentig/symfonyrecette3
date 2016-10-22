@@ -330,6 +330,7 @@ class RecettteAdmin extends AbstractAdmin
                 [
                     'edit' => 'inline',
                     'inline' => 'table',
+                    'sortable' => 'position',
                 ]
             )
             ->end();
