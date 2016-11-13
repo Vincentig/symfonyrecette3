@@ -1,0 +1,25 @@
+{% extends 'SonataAdminBundle:Core:tab_menu_template.html.twig' %}
+
+
+
+{% block linkElement %}
+    {%- set is_modal = attributes.modal %}
+    {#{%   dump(attributes.modal) %}#}
+    {#{{  dump() }}#}
+    {% set id = item.name %}
+    {#<a data-toggle="modal" data-load-url="{{ item.uri }}" data-target="#menu_modal_{{ id }}" >#}
+    {#<a onclick="return start_menu_modal_{{ id }}(this);" data-target="#menu_modal_{{ id }}" href="{{ item.uri }}"{{ macros.attributes(item.linkAttributes) }} >#}
+    <a id="modal_link_{{ id }}" data-target="#menu_modal_{{ id }}" href="{{ item.uri }}"{{ macros.attributes(item.linkAttributes) }} >
+        {% if item.attribute('icon') is not empty  %}
+            <i class="{{ item.attribute('icon') }}"></i>
+        {% endif %}
+        {{ block('label') }}
+    </a>
+{% if is_modal == true %}
+    {% if attributes.modalActionController is defined %}
+        {% set modalActionController =  attributes.modalActionController%}
+    {% endif %}
+    {% include ':Admin:tab_menu_modal.html.twig' %}
+    {% include ':Admin:tab_menu_script.html.twig' %}
+{% endif %}
+{% endblock %}

@@ -8,9 +8,12 @@
 
 namespace AppBundle\Admin;
 
+use AppBundle\Form\OCRType;
 use AppBundle\services\RecetteManager;
 use blackknight467\StarRatingBundle\Form\RatingType;
+use Knp\Menu\ItemInterface as MenuItemInterface;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
+use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\ModelType;
@@ -71,42 +74,54 @@ class RecettteAdmin extends AbstractAdmin
     public function configureFormFields(FormMapper $form)
     {
         $this->buildIMage($form, 1);
-        $this->buildGeneral($form, 2);
-        $this->buildEndroits($form, 3);
-        $this->buildIngrediens($form, 4);
-        $this->buildEtapes($form, 5);
+//        $this->buildIMageOCR($form, 2);
+        $this->buildGeneral($form, 3);
+        $this->buildEndroits($form, 4);
+        $this->buildIngrediens($form, 5);
+        $this->buildEtapes($form, 6);
 
         $form->getFormBuilder()->addEventListener(FormEvents::PRE_SUBMIT, [$this, 'onPreSubmit']);
     }
 
     /**
-     * onPreSubmit
+     * buildIMage
      *
-     * @param FormEvent $event
+     * @param FormMapper $form
+     * @param integer $order
      */
-    public function onPreSubmit(FormEvent $event)
+    private function buildIMage(FormMapper $form, $order)
     {
-        if ($event->getData()['numero'] == '' && $event->getData()['famille'] && $event->getData()['categorie']) {
-            $numero = $this->recetteManager->getLastNumberWithFamilyAndCategory(
-                $event->getData()['famille'],
-                $event->getData()['categorie']
-            );
-
-            $event->setData(array_merge($event->getData(), ['numero' => $numero]));
-        }
+        $form
+            ->with('partie '.$order, ['class' => 'col-md-12'])
+            ->add(
+                'image',
+                MediaType::class,
+                [
+                    'provider' => 'sonata.media.provider.image',
+                    'context' => 'default',
+                ]
+            )
+            ->end();
     }
 
     /**
-     * validate
+     * buildIMage
      *
-     * @param ErrorElement $errorElement
-     * @param mixed        $media
+     * @param FormMapper $form
+     * @param integer $order
      */
-    public function validate(ErrorElement $errorElement, $media)
+    private function buildIMageOCR(FormMapper $form, $order)
     {
-        $errorElement
-            ->with('image.binaryContent')
-            ->assertFile(array('maxSize' => '3000000'))
+        $form
+            ->with('partie '.$order, ['class' => 'col-md-12'])
+            ->add(
+                'imageOCR',
+                OCRType::class,
+                [
+
+
+                ]
+            )
             ->end();
     }
 
@@ -114,7 +129,7 @@ class RecettteAdmin extends AbstractAdmin
      * buildGeneral
      *
      * @param FormMapper $form
-     * @param  integer   $order
+     * @param  integer $order
      */
     protected function buildGeneral(FormMapper $form, $order)
     {
@@ -270,12 +285,12 @@ class RecettteAdmin extends AbstractAdmin
     }
 
     /**
-     * buildEtapes
+     * buildEndroits
      *
      * @param FormMapper $form
-     * @param integer    $order
+     * @param            $order
      */
-    protected function buildEtapes(FormMapper $form, $order)
+    private function buildEndroits(FormMapper $form, $order)
     {
         $form
             ->with(
@@ -285,16 +300,17 @@ class RecettteAdmin extends AbstractAdmin
                 ]
             )
             ->add(
-                'etapes',
+                'recetteEndroits',
                 CollectionType::class,
                 [
+                    'required' => false,
                     'by_reference' => false,
-                    'label' => 'admin.recette.label.step',
+                    'label' => 'admin.recette.label.places',
                 ],
                 [
                     'edit' => 'inline',
                     'inline' => 'table',
-                    'sortable' => 'numero',
+                    'required' => false,
                 ]
             )
             ->end();
@@ -304,7 +320,7 @@ class RecettteAdmin extends AbstractAdmin
      * buildIngrediens
      *
      * @param FormMapper $form
-     * @param integer    $order
+     * @param integer $order
      */
     protected function buildIngrediens(FormMapper $form, $order)
     {
@@ -337,33 +353,12 @@ class RecettteAdmin extends AbstractAdmin
     }
 
     /**
-     * buildIMage
+     * buildEtapes
      *
      * @param FormMapper $form
-     * @param integer    $order
+     * @param integer $order
      */
-    private function buildIMage(FormMapper $form, $order)
-    {
-        $form
-            ->with('partie '.$order, ['class' => 'col-md-12'])
-            ->add(
-                'image',
-                MediaType::class,
-                [
-                    'provider' => 'sonata.media.provider.image',
-                    'context' => 'default',
-                ]
-            )
-            ->end();
-    }
-
-    /**
-     * buildEndroits
-     *
-     * @param FormMapper $form
-     * @param            $order
-     */
-    private function buildEndroits(FormMapper $form, $order)
+    protected function buildEtapes(FormMapper $form, $order)
     {
         $form
             ->with(
@@ -373,19 +368,87 @@ class RecettteAdmin extends AbstractAdmin
                 ]
             )
             ->add(
-                'recetteEndroits',
+                'etapes',
                 CollectionType::class,
                 [
-                    'required' => false,
                     'by_reference' => false,
-                    'label' => 'admin.recette.label.places',
+                    'label' => 'admin.recette.label.step',
                 ],
                 [
                     'edit' => 'inline',
                     'inline' => 'table',
-                    'required' => false,
+                    'sortable' => 'numero',
                 ]
             )
             ->end();
     }
+
+    /**
+     * onPreSubmit
+     *
+     * @param FormEvent $event
+     */
+    public function onPreSubmit(FormEvent $event)
+    {
+        if ($event->getData()['numero'] == '' && $event->getData()['famille'] && $event->getData()['categorie']) {
+            $numero = $this->recetteManager->getLastNumberWithFamilyAndCategory(
+                $event->getData()['famille'],
+                $event->getData()['categorie']
+            );
+
+            $event->setData(array_merge($event->getData(), ['numero' => $numero]));
+        }
+    }
+
+    /**
+     * validate
+     *
+     * @param ErrorElement $errorElement
+     * @param mixed $media
+     */
+    public function validate(ErrorElement $errorElement, $media)
+    {
+        $errorElement
+            ->with('image.binaryContent')
+            ->assertFile(array('maxSize' => '3000000'))
+            ->end();
+    }
+
+    /**
+     * configureTabMenu
+     *
+     * @param MenuItemInterface $menu
+     * @param string $action
+     * @param AdminInterface|null $childAdmin
+     * @return mixed|void
+     */
+    protected function configureTabMenu(MenuItemInterface $menu, $action, AdminInterface $childAdmin = null)
+    {
+        parent::configureTabMenu($menu, $action, $childAdmin);
+
+        if (!$childAdmin && !in_array($action, ['edit'])) {
+            return;
+        }
+        $menu->addChild(
+            'OCR',
+            [
+                'attributes' => [
+                    'modal' => true,
+                    'modalActionController' => 'AppBundle:OCR:ocr',
+                ],
+                'uri' => '/',
+            ]
+        );
+//        $menu->addChild(
+//            $this->trans('Show'),
+//            array('uri' => $this->generateUrl('show', array('id' => $this->getSubject()->getId())))
+//        );
+//
+//        // Link will only appear if access to ACL protected URL is granted
+//        if ($this->isGranted('EDIT')) {
+//            $menu->addChild($this->trans('Edit'), array('uri' => $admin->generateUrl('edit', array('id' => $id))));
+//        }
+    }
+
+
 }

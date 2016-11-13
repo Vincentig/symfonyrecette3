@@ -41,6 +41,7 @@ twig:
     form_themes:
         # other files
         - 'SonataMediaBundle:Form:media_widgets.html.twig'
+        - ':form:OCRType.html.twig'
 
 # Doctrine Configuration
 doctrine:
@@ -134,6 +135,7 @@ sonata_admin:
     title: Recettes
     templates:
         layout: ::layout_back.html.twig
+        tab_menu_template:  :Admin:tab_menu_template.html.twig
     assets:
         stylesheets:
             - bundles/starrating/css/rating.css

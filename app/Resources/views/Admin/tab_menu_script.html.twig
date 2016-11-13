@@ -1,0 +1,49 @@
+<script type="text/javascript">
+    var field_dialog_{{ id }}         = false;
+    var field_dialog_content_{{ id }} = false;
+    var field_dialog_title_{{ id }}   = false;
+
+    function initialize_popup_{{ id }}() {
+        // initialize component
+        if (!field_dialog_{{ id }}) {
+
+            field_dialog_{{ id }}         = jQuery("#menu_modal_{{ id }}");
+            field_dialog_content_{{ id }} = jQuery(".modal-body", "#menu_modal_{{ id }}");
+            field_dialog_title_{{ id }}   = jQuery(".modal-title", "#menu_modal_{{ id }}");
+
+            // move the dialog as a child of the root element, nested form breaks html ...
+            jQuery(document.body).append(field_dialog_{{ id }});
+        }
+    }
+
+    function start_menu_modal_{{ id }}(link) {
+
+        // remove the html event
+        event.preventDefault();
+        event.stopPropagation();
+
+        console.log('je clique');
+        initialize_popup_{{ id }}();
+
+        // add the jQuery event to the a element
+        field_dialog_{{ id }}.modal();
+
+        return false;
+    }
+
+    $(document).ready(function(){
+        $('#modal_link_{{ id }}').on('click', function (event) {
+            event.preventDefault();
+            event.stopPropagation();
+            initialize_popup_{{ id }}();
+
+            field_dialog_{{ id }}.modal('show', $(this));
+        });
+
+        {#$('#menu_modal_{{ id }}').on('show.bs.modal', function (e) {#}
+{#//            console.log(e.relatedTarget);#}
+            {#var loadurl = $(e.relatedTarget).attr('href');#}
+            {#$(this).find('.modal-body').load(loadurl);#}
+        {#});#}
+    })
+</script>
