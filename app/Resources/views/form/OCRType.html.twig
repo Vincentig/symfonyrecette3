@@ -8,31 +8,32 @@
 
             if(log.firstChild && log.firstChild.status === packet.status){
                 if('progress' in packet){
-                    var progress = log.firstChild.querySelector('progress')
-                    progress.value = packet.progress
+                    var progress = log.firstChild.querySelector('progress');
+                    progress.value = packet.progress;
                 }
             }else{
                 var line = document.createElement('div');
                 line.status = packet.status;
-                var status = document.createElement('div')
-                status.className = 'status'
-                status.appendChild(document.createTextNode(packet.status))
-                line.appendChild(status)
+                var status = document.createElement('div');
+                status.className = 'status';
+                status.appendChild(document.createTextNode(packet.status));
+                line.appendChild(status);
 
                 if('progress' in packet){
-                    var progress = document.createElement('progress')
-                    progress.value = packet.progress
-                    progress.max = 1
-                    line.appendChild(progress)
+                    var progress = document.createElement('progress');
+                    progress.value = packet.progress;
+                    progress.max = 1;
+                    line.appendChild(progress);
                 }
 
 
                 if(packet.status == 'done'){
-                    var pre = document.createElement('pre')
-                    pre.appendChild(document.createTextNode(packet.data.text))
-                    line.innerHTML = ''
-                    line.appendChild(pre)
-
+                    var pre = document.createElement('pre');
+                    pre.appendChild(document.createTextNode(packet.data.text));
+                    line.innerHTML = '';
+                    line.appendChild(pre);
+                    createDownloadLink("#export",packet.data.text,"file.txt");
+                    log.innerHTML='';
                 }
 
                 log.insertBefore(line, log.firstChild)
@@ -46,28 +47,42 @@
                 lang: 'fra'
             })
                     .progress(function(packet){
-                        console.info(packet)
-                        progressUpdate(packet)
+                        console.info(packet);
+                        progressUpdate(packet);
 
                     })
                     .then(function(data){
-                        console.log(data)
-                        progressUpdate({ status: 'done', data: data })
+                        console.log(data);
+                        progressUpdate({ status: 'done', data: data });
                     })
         }
+        function createDownloadLink(anchorSelector, str, fileName){
+            if(window.navigator.msSaveOrOpenBlob) {
+                var fileData = [str];
+                blobObject = new Blob(fileData);
+                $(anchorSelector).click(function(){
+                    window.navigator.msSaveOrOpenBlob(blobObject, fileName);
+                });
+            } else {
+                var url = "data:text/plain;charset=utf-8," + encodeURIComponent(str);
+                $(anchorSelector).attr("download", fileName);
+                $(anchorSelector).attr("href", url);
+            }
+            $(anchorSelector).removeClass('hidden');
+
+        }
+
 
         $(document).ready(function(){
            $('#{{ form.children.image.vars.id }}').on('change', function(){
                recognizeFile(this.files[0])
-               console.log('je clique dans ton cul');
            });
         });
 
     </script>
-{#{{ dump() }}#}
-{#{{ dump(form.children.image.vars.id) }}#}
-    {{ block('form_widget') }}
 
+    {{ block('form_widget') }}
+    <a id="export" class="btn btn-primary hidden" download="" href="#">Exporter dans un fichier txt</a>
     <div id="log"></div>
 
     <style>
