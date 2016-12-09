@@ -426,7 +426,7 @@ class RecettteAdmin extends AbstractAdmin
     {
         parent::configureTabMenu($menu, $action, $childAdmin);
 
-        if (!$childAdmin && !in_array($action, ['edit'])) {
+        if (!$childAdmin && !in_array($action, ['create','edit'])) {
             return;
         }
         $menu->addChild(

@@ -5,13 +5,50 @@
 {% block contenu %}
 
     {{ parent() }}
-    <section class="row">
+    <div class="filters row">
+        <div class="col-md-6">
+            <h3>Famille</h3>
+            <div class="btn-group" data-toggle="buttons" data-filter-group="famille">
+                <label class="btn btn-default active" data-filter="">
+                    <input type="radio" name="options" id="option1" autocomplete="off" checked>Tous
+                </label>
+                {% for famille in familles %}
+                    <label class="btn btn-default" data-filter=".{{ famille.nomFamille}}">
+                        <input type="radio" name="options" id="option2" autocomplete="off"> {{ famille.nomFamille }}
+                    </label>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="col-md-6">
+            <h3>Categories</h3>
+            <div class="btn-group" data-toggle="buttons" data-filter-group="categorie">
+                <label class="btn btn-default active" data-filter="">
+                    <input type="radio" name="options" id="option1" autocomplete="off" checked>Tous
+                </label>
+                {% for categorie in categories %}
+                    <label class="btn btn-default" data-filter=".{{ categorie.nomCategorie }}">
+                        <span class="glyphicon glyphicon-ice-lolly-tasted"></span>
+                        <input type="radio" name="options" id="option2" autocomplete="off"> {{ categorie.nomCategorie }}
+                    </label>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+<div class="clearfix"></div>
+
+    <section id="grid" class="row ">
         {% for recette in recettes %}
-            <article class="col-sm-4">
+            <article class="col-sm-3 element-item {{ recette.famille.nomFamille }} {{ recette.categorie.nomCategorie }}">
                 <h3><a href="{{ path('recette_view', {'id': recette.id} ) }}">{{ recette.nom }}</a></h3>
                 <p class="well">
-
+                    {#<img src="{{('images/' ~ recette.image.url) | imagine_filter('my_thumb')}}" alt="{{recette.image.alt}}" />#}
+                    <img src="{% path recette.image, 'small' %}" alt="{{ recette.image.description }}" style="display: block"/>
+                    {#{% media recette.image, 'small' %}#}
+                    <span class="label label-default">{{ recette.famille.nomFamille }}</span>
+                    <span class="label label-default">{{ recette.categorie.nomCategorie }}</span>
                 </p>
+
             </article>
         {% else %}
             <p>aucune recettes</p>
@@ -20,10 +57,45 @@
 
 {% endblock %}
 
-{% block stylesheets %}
-<style>
 
+{% block  javaScript%}
+    {{ parent() }}
+    <script>
+        $(function() {
+            // init Isotope
+            var $grid = $('#grid').isotope({
+                itemSelector: '.element-item',
+                layoutMode: 'fitRows'
+            });
 
+// store filter for each group
+            var filters = {};
 
-</style>
+            $('.filters').on( 'change', '.btn', function() {
+                var $this = $(this);
+                // get group key
+                var $buttonGroup = $this.parents('.btn-group');
+                var filterGroup = $buttonGroup.attr('data-filter-group');
+                // set filter for group
+                filters[ filterGroup ] = $this.attr('data-filter');
+                console.log($buttonGroup);
+                // combine filters
+                var filterValue = concatValues( filters );
+                // set filter for Isotope
+                $grid.isotope({ filter: filterValue });
+            });
+
+// flatten object by concatting values
+            function concatValues( obj ) {
+                var value = '';
+                for ( var prop in obj ) {
+                    value += obj[ prop ];
+                }
+
+                return value;
+            }
+
+        });
+        
+    </script>
 {% endblock %}
