@@ -3,12 +3,15 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
 
 /**
  * Endroit
  *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="AppBundle\Repository\EndroitRepository")
+ * @UniqueEntity("nom")
  */
 class Endroit
 {
@@ -24,7 +27,7 @@ class Endroit
     /**
      * @var string
      *
-     * @ORM\Column(name="nom", type="string", length=255)
+     * @ORM\Column(name="nom", type="string", length=255, unique=true)
      */
     private $nom;
 
@@ -60,6 +63,16 @@ class Endroit
     public function getNom()
     {
         return $this->nom;
+    }
+
+    /**
+     * __toString
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getNom();
     }
 }
 

@@ -10,11 +10,12 @@
 
     {% if recette is not null %}
     <h1>{% if recette.categorie is not null %}{{ recette.categorie.nomCategorie }} /{% endif %}  {{ recette.famille.nomFamille }}  / {{ recette.numero }}</h1>
-    <h2>{{ recette.nom }} {% if recette.pays is not null %} ({{ recette.pays.nom }}) {% endif %}</h2>
+    <h2>{{ recette.nom }} {% if recette.pays is not null %} ({{ recette.pays | country }}) {% endif %}</h2>
 
-        <img src="{{ asset(recette.image.url) }}" alt="{{ recette.image.alt }}" width="300"  />
+        {% media recette.image, 'big' %}
+        {#<img src="{{ asset(recette.image.url) }}" alt="{{ recette.image.alt }}" width="300"  />#}
 
-    <p>{{ recette.tempsRealisation }} - {{ recette.difficulte }} - {{ recette.cout }}</p>
+    <div>- Durée : {{ recette.tempsRealisation|rating }} - Difficulte : {{ recette.difficulte|rating }} - Prix : {{ recette.cout|rating }}</div>
 
     <ul>
         <li>POUR : {{ recette.quantiteMin }} {% if recette.quantiteMax is not null %}à {{ recette.quantiteMax }}{% endif %} {{ recette.quantiteType }}</li>
@@ -53,7 +54,11 @@
         {% endfor %}
     </p>
 
-    {% if recette.boisson is not null %}<p><b>Boisson d'accompagnement</b> : {{ recette.boisson }}</p> {% endif %}
+    {% if recette.boissons is not null %}
+        <p>
+            <b>Boisson d'accompagnement</b> : {% for boisson in recette.boissons %}{{ boisson }}, {% endfor %}
+        </p>
+    {% endif %}
     {% if recette.notreTruc is not null %}<p><b>Notre truc</b> : {{ recette.notreTruc }}</p> {% endif %}
     {% if recette.conseilAchat is not null %}<p><b>Conseils d'achat</b> : {{ recette.conseilAchat }}</p> {% endif %}
     {% else %}

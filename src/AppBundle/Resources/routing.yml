@@ -1,0 +1,3 @@
+ocr:
+    path: /admin/ocr
+    defaults: {_controller: AppBundle:OCR:ocr}

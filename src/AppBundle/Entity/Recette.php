@@ -2,8 +2,12 @@
 
 namespace AppBundle\Entity;
 
+use Application\Sonata\MediaBundle\Entity\Media;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\OrderBy;
+
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Recette
@@ -36,16 +40,16 @@ class Recette
     private $nom;
 
     /**
-     * @var string
+     * @var integer
      *
-     * @ORM\Column(name="difficulte", type="string", length=255)
+     * @ORM\Column(name="difficulte", type="integer")
      */
     private $difficulte;
 
     /**
-     * @var \string
+     * @var integer
      *
-     * @ORM\Column(name="temps_realisation", type="string", length=255)
+     * @ORM\Column(name="temps_realisation", type="integer")
      */
     private $tempsRealisation;
 
@@ -64,9 +68,9 @@ class Recette
     private $tempsCuissonMax;
 
     /**
-     * @var string
+     * @var integer
      *
-     * @ORM\Column(name="cout", type="string", length=255)
+     * @ORM\Column(name="cout", type="integer")
      */
     private $cout;
 
@@ -99,19 +103,19 @@ class Recette
     private $quantiteMax;
 
     /**
-     * @var string
+     * @var TypeQuantite
      *
-     * @ORM\Column(name="quantite_type", type="string", length=255)
+     * @ORM\ManyToOne(targetEntity="TypeQuantite", cascade={"persist"})
      */
     private $quantiteType;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="boisson", type="string", length=255 , nullable=true)
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Boisson", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=true)
      */
-    private $boisson;
-
+    private $boissons;
 
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Categorie", cascade={"persist"})
@@ -125,27 +129,29 @@ class Recette
     private $famille;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Pays" )
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $pays;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Etape", mappedBy="recette", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Etape", mappedBy="recette", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @OrderBy({"numero" = "ASC"})
      */
     private $etapes;
 
     /**
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Image", cascade={"persist"})
+     * @ORM\OneToOne(targetEntity="Application\Sonata\MediaBundle\Entity\Media", cascade={"persist", "remove"})
      */
     private $image;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\RecetteEndroit", mappedBy="recette", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\RecetteEndroit", mappedBy="recette", cascade={"persist", "remove"}, orphanRemoval=true)
      */
     private $recetteEndroits;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Compose", mappedBy="recette", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Compose", mappedBy="recette", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @OrderBy({"position" = "ASC"})
      */
     private $recetteComposes;
 
@@ -154,6 +160,7 @@ class Recette
      */
     public function __construct()
     {
+        $this->boissons = new ArrayCollection();
         $this->etapes = new ArrayCollection();
         $this->recetteEndroits = new ArrayCollection();
         $this->recetteComposes = new ArrayCollection();
@@ -458,33 +465,43 @@ class Recette
     }
 
     /**
-     * Set boisson
+     * Add boisson
      *
-     * @param string $boisson
+     * @param \AppBundle\Entity\Boisson $boisson
      *
      * @return Recette
      */
-    public function setBoisson($boisson)
+    public function addBoisson(Boisson $boisson)
     {
-        $this->boisson = $boisson;
+        $this->boissons[] = $boisson;
 
         return $this;
     }
 
     /**
-     * Get boisson
+     * Remove boisson
      *
-     * @return string
+     * @param \AppBundle\Entity\Boisson $boisson
      */
-    public function getBoisson()
+    public function removeBoisson(Boisson $boisson)
     {
-        return $this->boisson;
+        $this->boissons->removeElement($boisson);
+    }
+
+    /**
+     * Get boissons
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getBoissons()
+    {
+        return $this->boissons;
     }
 
     /**
      * Set categorie
      *
-     * @param Categorie $categorie
+     * @param \AppBundle\Entity\Categorie $categorie
      *
      * @return Recette
      */
@@ -498,7 +515,7 @@ class Recette
     /**
      * Get categorie
      *
-     * @return Categorie
+     * @return \AppBundle\Entity\Categorie
      */
     public function getCategorie()
     {
@@ -508,7 +525,7 @@ class Recette
     /**
      * Set famille
      *
-     * @param Famille $famille
+     * @param \AppBundle\Entity\Famille $famille
      *
      * @return Recette
      */
@@ -522,7 +539,7 @@ class Recette
     /**
      * Get famille
      *
-     * @return Famille
+     * @return \AppBundle\Entity\Famille
      */
     public function getFamille()
     {
@@ -532,20 +549,21 @@ class Recette
     /**
      * Set pays
      *
-     * @param Pays $pays
+     * @param string $pays
      *
      * @return Recette
      */
-    public function setPays(Pays $pays = null)
+    public function setPays($pays = null)
     {
         $this->pays = $pays;
 
         return $this;
     }
+
     /**
      * Get pays
      *
-     * @return Pays
+     * @return string
      */
     public function getPays()
     {
@@ -555,15 +573,28 @@ class Recette
     /**
      * Add etape
      *
-     * @param Etape $etape
+     * @param \AppBundle\Entity\Etape $etape
      *
      * @return Recette
      */
     public function addEtape(Etape $etape)
     {
+        $etape->setRecette($this);
         $this->etapes[] = $etape;
 
-        $etape->setRecette($this);
+        return $this;
+    }
+
+    /**
+     * Add etape
+     *
+     * @param \AppBundle\Entity\Etape $etapes
+     *
+     * @return Recette
+     */
+    public function setEtapes($etapes)
+    {
+        $this->etapes = $etapes;
 
         return $this;
     }
@@ -571,7 +602,7 @@ class Recette
     /**
      * Remove etape
      *
-     * @param Etape $etape
+     * @param \AppBundle\Entity\Etape $etape
      */
     public function removeEtape(Etape $etape)
     {
@@ -581,7 +612,7 @@ class Recette
     /**
      * Get etapes
      *
-     * @return  Etape[]
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getEtapes()
     {
@@ -591,11 +622,11 @@ class Recette
     /**
      * Set image
      *
-     * @param Image $image
+     * @param Media $image
      *
      * @return Recette
      */
-    public function setImage(Image $image = null)
+    public function setImage($image = null)
     {
         $this->image = $image;
 
@@ -605,7 +636,7 @@ class Recette
     /**
      * Get image
      *
-     * @return Image
+     * @return \AppBundle\Entity\Image
      */
     public function getImage()
     {
@@ -615,15 +646,14 @@ class Recette
     /**
      * Add recetteEndroit
      *
-     * @param RecetteEndroit $recetteEndroit
+     * @param \AppBundle\Entity\RecetteEndroit $recetteEndroit
      *
      * @return Recette
      */
     public function addRecetteEndroit(RecetteEndroit $recetteEndroit)
     {
-        $this->recetteEndroits[] = $recetteEndroit;
-
         $recetteEndroit->setRecette($this);
+        $this->recetteEndroits[] = $recetteEndroit;
 
         return $this;
     }
@@ -631,7 +661,7 @@ class Recette
     /**
      * Remove recetteEndroit
      *
-     * @param RecetteEndroit $recetteEndroit
+     * @param \AppBundle\Entity\RecetteEndroit $recetteEndroit
      */
     public function removeRecetteEndroit(RecetteEndroit $recetteEndroit)
     {
@@ -641,7 +671,7 @@ class Recette
     /**
      * Get recetteEndroits
      *
-     * @return RecetteEndroit[]
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getRecetteEndroits()
     {
@@ -649,37 +679,48 @@ class Recette
     }
 
     /**
-     * Add RecetteComposes
+     * Add recetteCompose
      *
-     * @param Compose $RecetteComposes
+     * @param \AppBundle\Entity\Compose $recetteCompose
      *
      * @return Recette
      */
-    public function addRecetteComposes(Compose $RecetteComposes)
+    public function addRecetteCompose(Compose $recetteCompose)
     {
-        $this->recetteComposes[] = $RecetteComposes;
-        $RecetteComposes->setRecette($this);
+        $recetteCompose->setRecette($this);
+        $this->recetteComposes[] = $recetteCompose;
 
         return $this;
     }
 
     /**
-     * Remove RecetteComposes
+     * Remove recetteCompose
      *
-     * @param Compose $RecetteComposes
+     * @param \AppBundle\Entity\Compose $recetteCompose
      */
-    public function removeRecetteComposes(Compose $RecetteComposes)
+    public function removeRecetteCompose(Compose $recetteCompose)
     {
-        $this->recetteComposes->removeElement($RecetteComposes);
+        $this->recetteComposes->removeElement($recetteCompose);
     }
 
     /**
      * Get recetteComposes
      *
-     * @return Compose[]
+     * @return \Doctrine\Common\Collections\Collection
      */
-    public function getrecetteComposes()
+    public function getRecetteComposes()
     {
         return $this->recetteComposes;
+    }
+
+    /**
+     * __toString
+     *
+     * @return string
+     *
+     */
+    public function __toString()
+    {
+        return $this->getNom();
     }
 }

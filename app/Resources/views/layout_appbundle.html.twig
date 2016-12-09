@@ -1,17 +1,17 @@
-{% extends "::layout.html.twig" %}
+{% extends "::Layout.html.twig" %}
 
 {% block stylesheet %}
     {{ parent() }}
     <link rel="stylesheet" href="css/style.css" />
-    <style>
+    {#<style>#}
 
-        article img{
-            max-width:280px;
-            width:100%;
-            float:left;
-            margin-right:10px
-        }
-    </style>
+        {#article img{#}
+            {#max-width:280px;#}
+            {#width:100%;#}
+            {#float:left;#}
+            {#margin-right:10px#}
+        {#}#}
+    {#</style>#}
 {%endblock%}
 
 
@@ -23,20 +23,20 @@
 
 {% block body %}
 
-    <div class="col-sm-3">
-        {% block menu %}
+    {#<div class="col-sm-3">#}
+        {#{% block menu %}#}
             {#            {{ render(controller("AppBundle:Blog:menuGauche", {'nombre':3})) }}#}
-            <div class="navbar">
-                <div class="navbar-inner">
+            {#<div class="navbar">#}
+                {#<div class="navbar-inner">#}
 
-                    {{ knp_menu_render('AppBundle:Builder:mainMenu', {'currentClass': 'active'}) }}
-                </div>
-            </div>
+                    {#{{ knp_menu_render('AppBundle:Builder:mainMenu', {'currentClass': 'active'}) }}#}
+                {#</div>#}
+            {#</div>#}
 
-        {% endblock %}
+        {#{% endblock %}#}
 
-    </div>
-    <div class="col-sm-9">
+    {#</div>#}
+    <div class="col-sm-12">
         {% for message in app.session.flashbag.get('info') %}
             <p class="alert alert-success">{{message}}</p>
         {%endfor%}
