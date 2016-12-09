@@ -24,7 +24,7 @@ class Famille
     /**
      * @var string
      *
-     * @ORM\Column(name="nom_famille", type="string", length=255)
+     * @ORM\Column(name="nom_famille", type="string", length=255, unique=true)
      */
     private $nomFamille;
 
@@ -60,7 +60,15 @@ class Famille
      */
     public function getNomFamille()
     {
-        return $this->nomFamille;
+        return ucfirst($this->nomFamille);
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getNomFamille();
     }
 }
 

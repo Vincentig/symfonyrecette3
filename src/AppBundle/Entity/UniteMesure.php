@@ -3,12 +3,14 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * UniteMesure
  *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UniteMesureRepository")
+ * @UniqueEntity("libelle")
  */
 class UniteMesure
 {
@@ -92,6 +94,16 @@ class UniteMesure
     public function getAbreviation()
     {
         return $this->abreviation;
+    }
+
+    /**
+     * __toString
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getLibelle();
     }
 }
 

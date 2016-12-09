@@ -24,7 +24,7 @@ class Categorie
     /**
      * @var string
      *
-     * @ORM\Column(name="nom_categorie", type="string", length=255)
+     * @ORM\Column(name="nom_categorie", type="string", length=255, unique=true)
      */
     private $nomCategorie;
 
@@ -60,7 +60,17 @@ class Categorie
      */
     public function getNomCategorie()
     {
-        return $this->nomCategorie;
+        return ucfirst($this->nomCategorie);
+    }
+
+    /**
+     * __toString
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getNomCategorie();
     }
 }
 

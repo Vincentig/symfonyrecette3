@@ -121,4 +121,9 @@ class RecetteEndroit
     {
         return $this->endroit;
     }
+
+    function __toString()
+    {
+        return $this->getRecette()->getNom().'_endroit_'.$this->getEndroit()->getNom();
+    }
 }

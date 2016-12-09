@@ -29,13 +29,17 @@ class DefaultController extends Controller
         $repository = $em->getRepository('AppBundle:Recette');
         $recettes = $repository->findAll();
 
-        foreach ($recettes as $index => $recette) {
+        $familleRepo = $em->getRepository('AppBundle:Famille');
+        $familles = $familleRepo->findAll();
 
-        }
+        $categoriesRepo = $em->getRepository('AppBundle:Categorie');
+        $categories = $categoriesRepo->findAll();
 
         // replace this example code with whatever you need
         return $this->render('Recette/index.html.twig', [
             'recettes' => $recettes,
+            'familles' => $familles,
+            'categories' => $categories,
         ]);
     }
 

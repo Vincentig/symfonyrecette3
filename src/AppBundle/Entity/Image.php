@@ -3,12 +3,13 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
+use Gedmo\Mapping\Annotation as Gedmo;
 /**
  * Image
  *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ImageRepository")
+ * @Gedmo\Uploadable
  */
 class Image
 {
@@ -25,6 +26,7 @@ class Image
      * @var string
      *
      * @ORM\Column(name="url", type="string", length=255)
+     * @Gedmo\UploadableFilePath
      */
     private $url;
 

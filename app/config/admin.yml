@@ -7,4 +7,78 @@ services:
         class: AppBundle\Admin\UserAdmin
         arguments: [~, AppBundle\Entity\User, ~]
         tags:
-            - { name: sonata.admin, manager_type: orm, group: "Content", label: User }
+            - { name: sonata.admin, manager_type: orm, group: "admin.recette.menu.utilisateurs", label: User, label_catalogue: "admin" }
+
+
+    admin.boisson:
+        class: AppBundle\Admin\BoissonAdmin
+        arguments: [~, AppBundle\Entity\Boisson, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Boissons", label: Boisson }
+
+    admin.categorie:
+        class: AppBundle\Admin\CategorieAdmin
+        arguments: [~, AppBundle\Entity\Categorie, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Catégories", label: Categorie }
+
+    admin.famille:
+        class: AppBundle\Admin\FamilleAdmin
+        arguments: [~, AppBundle\Entity\Famille, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Catégories", label: Famille }
+
+    admin.endroit:
+        class: AppBundle\Admin\EndroitAdmin
+        arguments: [~, AppBundle\Entity\Endroit, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Endroits", label: Endroit }
+
+    admin.ingredient:
+        class: AppBundle\Admin\IngredientAdmin
+        arguments: [~, AppBundle\Entity\Ingredient, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Ingrédients", label: Ingrédient }
+
+    admin.unite_mesure:
+        class: AppBundle\Admin\UniteMesureAdmin
+        arguments: [~, AppBundle\Entity\UniteMesure, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Ingrédients", label: UniteMesure }
+
+    admin.etape:
+        class: AppBundle\Admin\EtapeAdmin
+        arguments: [~, AppBundle\Entity\Etape, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Etapes", label: "Recette",  show_in_dashboard: false}
+
+    admin.recette_endroit:
+        class: AppBundle\Admin\RecetteEndroitAdmin
+        arguments: [~, AppBundle\Entity\RecetteEndroit, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Endroits", label: "Recette endroits", show_in_dashboard: false, label_catalogue: "admin"}
+        calls:
+            - [setTranslationDomain, ["admin"]]
+
+    admin.recette_compose:
+        class: AppBundle\Admin\RecetteComposeAdmin
+        arguments: [~, AppBundle\Entity\Compose, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Ingredients", label: "Recette compose ", show_in_dashboard: false}
+        calls:
+            - [setTranslationDomain, ["admin"]]
+
+    admin.type_quantite:
+        class: AppBundle\Admin\TypeQuantiteAdmin
+        arguments: [~, AppBundle\Entity\TypeQuantite, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "type_quantite", label: 'type_quantite', show_in_dashboard: false}
+    admin.recette:
+        class: AppBundle\Admin\RecettteAdmin
+        arguments: [~, AppBundle\Entity\Recette, SonataAdminBundle:CRUD]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Recette", label: "Recette", label_catalogue: "admin"}
+        calls:
+            - [setRecetteManager, ['@recette.manager']]
+            - [setTranslationDomain, ["admin"]]
+

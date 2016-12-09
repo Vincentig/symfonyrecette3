@@ -1,0 +1,66 @@
+{% block sonata_media_type_widget %}
+
+    <script>
+
+        function createThumbnail(file) {
+
+        }
+
+        $( document ).ready(function() {
+            $('#{{ id }}_binaryContent').on('change', function(){
+                var file = this.files[0];
+
+                var reader = new FileReader();
+                reader.addEventListener('load', function() {
+                    $('#thumbnail_{{ id }}').attr('src', this.result);
+
+//                    Tesseract.recognize(this.result, {
+//                        lang: 'fra',
+//                    })
+//                            .then(function(result){
+//                                console.log(result)
+//                            })
+
+                });
+                reader.readAsDataURL(file);
+            });
+        });
+
+
+    </script>
+    <div class="row">
+        <div class="col-md-12 pull-left">
+            {% if value is not empty and value.providerReference %}
+                {% if sonata_admin_enabled is defined and sonata_admin_enabled %}
+                    <a href="{{ sonata_admin.admin.getConfigurationPool().adminByAdminCode('sonata.media.admin.media').generateObjectUrl('edit', value) }}">
+                        <strong>{{ value.name }}</strong>
+                    </a>
+                {% else %}
+                    <strong>{{ value.name }}</strong>
+                {% endif %}
+
+            {% endif %}
+        </div>
+
+
+    </div>
+    <div class="row">
+        <div class="col-md-6 pull-left">
+            {% if value is not empty and value.providerReference %}
+                <div class="pull-left" style="margin-right: 5px">
+                    {#{{ dump() }}#}
+                    {% thumbnail value, 'admin' with {'class': 'img-polaroid media-object', 'id': 'thumbnail_'~id } %}
+                </div>
+            {% else %}
+                <div class="pull-left" style="margin-right: 5px">
+                    <img id='thumbnail_{{ id }}' src="{{ asset('bundles/sonatamedia/grey.png') }}" class="img-polaroid media-object" style="width: 85px; height: 85px"/>
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="col-md-6 pull-left">
+
+            {{ block('form_widget') }}
+        </div>
+    </div>
+{% endblock sonata_media_type_widget %}
