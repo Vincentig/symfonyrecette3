@@ -10,9 +10,6 @@
         <div class="col-md-6">
             <h3>Famille</h3>
             <div class="btn-group" data-toggle="buttons" data-filter-group="famille">
-                <label class="btn btn-default active" data-filter="">
-                    <input type="radio" name="options" id="option1" autocomplete="off" checked>Tous
-                </label>
                 {% for famille in familles %}
                     <label class="btn btn-default" data-filter=".{{ famille.nom}}">
                         <span class="{{ famille.icon }}"></span>
@@ -24,9 +21,6 @@
         <div class="col-md-6">
             <h3>Categories</h3>
             <div class="btn-group" data-toggle="buttons" data-filter-group="categorie">
-                <label class="btn btn-default active" data-filter="">
-                    <input type="radio" name="options" id="option1" autocomplete="off" checked>Tous
-                </label>
                 {% for categorie in categories %}
                     <label class="btn btn-default" data-filter=".{{ categorie.nom }}">
                         <span class="{{ categorie.icon }}"></span>
@@ -73,14 +67,23 @@
 // store filter for each group
             var filters = {};
 
-            $('.filters').on( 'change', '.btn', function() {
+            $('.filters').on( 'click', '.btn', function(e) {
                 var $this = $(this);
+
+                console.log($this.hasClass('active'));
+
                 // get group key
                 var $buttonGroup = $this.parents('.btn-group');
                 var filterGroup = $buttonGroup.attr('data-filter-group');
                 // set filter for group
                 filters[ filterGroup ] = $this.attr('data-filter');
-                console.log($buttonGroup);
+                if ($this.hasClass('active') == true) {
+                    console.log('toto');
+                    e.stopImmediatePropagation();
+                    e.preventDefault();
+                    filters[ filterGroup ] = '';
+                    $this.removeClass("active").prop('checked', false);
+                }
                 // combine filters
                 var filterValue = concatValues( filters );
                 // set filter for Isotope
