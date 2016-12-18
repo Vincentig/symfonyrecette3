@@ -22,7 +22,8 @@ class CategorieAdmin extends AbstractAdmin
     {
         $list
             ->addIdentifier('id')
-            ->addIdentifier('nomCategorie')
+            ->addIdentifier('nom')
+            ->addIdentifier('icon')
             ->add('_action', 'actions', array(
                 'actions' => array(
                     'show' => array(),
@@ -41,7 +42,8 @@ class CategorieAdmin extends AbstractAdmin
     {
         $showMapper
             ->add('id')
-            ->add('nomCategorie')
+            ->add('nom')
+            ->add('icon')
         ;
     }
 
@@ -53,6 +55,7 @@ class CategorieAdmin extends AbstractAdmin
     public function configureFormFields(FormMapper $form)
     {
         $form
-            ->add('nomCategorie', 'text');
+            ->add('nom', 'text')
+            ->add('icon', 'text');
     }
 }

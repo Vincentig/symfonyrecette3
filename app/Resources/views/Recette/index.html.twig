@@ -6,6 +6,7 @@
 
     {{ parent() }}
     <div class="filters row">
+
         <div class="col-md-6">
             <h3>Famille</h3>
             <div class="btn-group" data-toggle="buttons" data-filter-group="famille">
@@ -13,8 +14,9 @@
                     <input type="radio" name="options" id="option1" autocomplete="off" checked>Tous
                 </label>
                 {% for famille in familles %}
-                    <label class="btn btn-default" data-filter=".{{ famille.nomFamille}}">
-                        <input type="radio" name="options" id="option2" autocomplete="off"> {{ famille.nomFamille }}
+                    <label class="btn btn-default" data-filter=".{{ famille.nom}}">
+                        <span class="{{ famille.icon }}"></span>
+                        <input type="radio" name="options" id="option2" autocomplete="off"> {{ famille.nom }}
                     </label>
                 {% endfor %}
             </div>
@@ -26,9 +28,9 @@
                     <input type="radio" name="options" id="option1" autocomplete="off" checked>Tous
                 </label>
                 {% for categorie in categories %}
-                    <label class="btn btn-default" data-filter=".{{ categorie.nomCategorie }}">
-                        <span class="glyphicon glyphicon-ice-lolly-tasted"></span>
-                        <input type="radio" name="options" id="option2" autocomplete="off"> {{ categorie.nomCategorie }}
+                    <label class="btn btn-default" data-filter=".{{ categorie.nom }}">
+                        <span class="{{ categorie.icon }}"></span>
+                        <input type="radio" name="options" id="option2" autocomplete="off"> {{ categorie.nom }}
                     </label>
                 {% endfor %}
             </div>
@@ -39,14 +41,14 @@
 
     <section id="grid" class="row ">
         {% for recette in recettes %}
-            <article class="col-sm-3 element-item {{ recette.famille.nomFamille }} {{ recette.categorie.nomCategorie }}">
+            <article class="col-sm-3 element-item {{ recette.famille.nom }} {{ recette.categorie.nom }}">
                 <h3><a href="{{ path('recette_view', {'id': recette.id} ) }}">{{ recette.nom }}</a></h3>
                 <p class="well">
                     {#<img src="{{('images/' ~ recette.image.url) | imagine_filter('my_thumb')}}" alt="{{recette.image.alt}}" />#}
                     <img src="{% path recette.image, 'small' %}" alt="{{ recette.image.description }}" style="display: block"/>
                     {#{% media recette.image, 'small' %}#}
-                    <span class="label label-default">{{ recette.famille.nomFamille }}</span>
-                    <span class="label label-default">{{ recette.categorie.nomCategorie }}</span>
+                    <span class="label label-default">{{ recette.famille.nom }}</span>
+                    <span class="label label-default">{{ recette.categorie.nom }}</span>
                 </p>
 
             </article>
