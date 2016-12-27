@@ -408,10 +408,10 @@ class RecettteAdmin extends AbstractAdmin
      */
     public function validate(ErrorElement $errorElement, $media)
     {
-        $errorElement
-            ->with('image.binaryContent')
-            ->assertFile(array('maxSize' => '3000000'))
-            ->end();
+//        $errorElement
+//            ->with('image.binaryContent')
+//            ->assertFile(array('maxSize' => '3000000'))
+//            ->end();
     }
 
     /**
