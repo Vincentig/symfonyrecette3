@@ -8,8 +8,9 @@
     <div class="filters row">
 
         <div class="col-md-6">
-            <h3>Famille</h3>
-            <div class="btn-group" data-toggle="buttons" data-filter-group="famille">
+            {#<h3 class="hidden-xs hidden-sm">Famille</h3>#}
+            <span style="text-align: center;display: block;">Famille</span>
+            <div class="btn-group btn-group-justified" data-toggle="buttons" data-filter-group="famille">
                 {% for famille in familles %}
                     <label class="btn btn-default" data-filter=".{{ famille.nom}}">
                         <span class="{{ famille.icon }}"></span>
@@ -19,8 +20,9 @@
             </div>
         </div>
         <div class="col-md-6">
-            <h3>Categories</h3>
-            <div class="btn-group" data-toggle="buttons" data-filter-group="categorie">
+            {#<h3 class="hidden-xs hidden-sm">Categories</h3>#}
+            <span style="text-align: center;display: block;">Categories</span>
+            <div class="btn-group btn-group-justified" data-toggle="buttons" data-filter-group="categorie">
                 {% for categorie in categories %}
                     <label class="btn btn-default" data-filter=".{{ categorie.nom }}">
                         <span class="{{ categorie.icon }}"></span>
@@ -35,15 +37,26 @@
 
     <section id="grid" class="row ">
         {% for recette in recettes %}
-            <article class="col-sm-3 element-item {{ recette.famille.nom }} {{ recette.categorie.nom }}">
-                <h3><a href="{{ path('recette_view', {'id': recette.id} ) }}">{{ recette.nom }}</a></h3>
-                <p class="well">
+            <article class="col-xs-12 col-sm-6 col-md-6 col-lg-4 element-item {{ recette.famille.nom }} {{ recette.categorie.nom }}">
+                <h4><a href="{{ path('recette_view', {'id': recette.id} ) }}">{{ recette.nom|capitalize }}</a></h4>
+                <div class="well">
                     {#<img src="{{('images/' ~ recette.image.url) | imagine_filter('my_thumb')}}" alt="{{recette.image.alt}}" />#}
-                    <img src="{% path recette.image, 'small' %}" alt="{{ recette.image.description }}" style="display: block"/>
+                    <div>
+                        <img style="width:25%; float:left;" src="{% path recette.image, 'small' %}" alt="{{ recette.image.description }}" />
+
+                        <div style="width:75%; float:left;padding-left:5px;">
+                            <div>Durée : {{ recette.tempsRealisation|rating(5, 'fa-norm') }}</div>
+                            <div>Difficulte : {{ recette.difficulte|rating(5, 'fa-norm') }}</div>
+                            <div>Prix : {{ recette.cout|rating(5, 'fa-norm') }}</div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
                     {#{% media recette.image, 'small' %}#}
+                    <div>
                     <span class="label label-default">{{ recette.famille.nom }}</span>
                     <span class="label label-default">{{ recette.categorie.nom }}</span>
-                </p>
+                    </div>
+                </div>
 
             </article>
         {% else %}

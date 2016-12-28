@@ -10,3 +10,21 @@ article{
     border: 1px #ddd;
     box-shadow: none;
 }
+
+.back-to-top {
+    cursor: pointer;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display:none;
+}
+
+#grid .rating{
+    display: inline;
+}
+#grid .rating div.star-full::before {
+    padding: 0;
+}
+#grid .rating div.star-empty::before {
+    padding: 0;
+}

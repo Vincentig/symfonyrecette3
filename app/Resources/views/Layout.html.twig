@@ -91,9 +91,11 @@
 </div><!-- /.container -->
 
     <span id="top-link-block">
-        <a href="#top" class="well well-sm">
-            <i class="glyphicon glyphicon-chevron-up"></i> Back to Top
-        </a>
+        <a id="back-to-top" href="#" class="btn btn-primary btn-lg back-to-top" role="button" title="Click to return on the top page" data-toggle="tooltip" data-placement="left"><span class="glyphicon glyphicon-chevron-up"></span></a>
+
+        {#<a href="#top" class="well well-sm">#}
+            {#<i class="glyphicon glyphicon-chevron-up"></i> Back to Top#}
+        {#</a>#}
     </span>
 
 <!-- Bootstrap core JavaScript
@@ -115,7 +117,8 @@
 
 {% javascripts
 '@StarRatingBundle/Resources/public/js/rating.js'
-    '@AppBundle/Resources/public/js/*'
+    '@AppBundle/Resources/public/js/script.js'
+    '@AppBundle/Resources/public/js/isotop.js'
 %}
 <script src="{{asset_url}}"></script>
 
