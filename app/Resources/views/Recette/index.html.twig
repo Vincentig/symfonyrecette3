@@ -5,49 +5,56 @@
 {% block contenu %}
 
     {{ parent() }}
-    <div class="filters row">
+    <div  class="filters row hidden-xs hidden-sm" style="margin-top:15px;" >
         <div class="col-md-6">
-            <h3>Famille</h3>
-            <div class="btn-group" data-toggle="buttons" data-filter-group="famille">
-                <label class="btn btn-default active" data-filter="">
-                    <input type="radio" name="options" id="option1" autocomplete="off" checked>Tous
-                </label>
+            {#<h3 class="hidden-xs hidden-sm">Famille</h3>#}
+            {#<span class="hidden-xs hidden-sm" style="text-align: center;display: block;">Famille</span>#}
+            <div class="btn-group btn-group-justified" data-toggle="buttons" data-filter-group="famille">
                 {% for famille in familles %}
-                    <label class="btn btn-default" data-filter=".{{ famille.nomFamille}}">
-                        <input type="radio" name="options" id="option2" autocomplete="off"> {{ famille.nomFamille }}
+                    <label class="btn btn-default" data-filter=".{{ famille.nom}}">
+                        <span class="hidden-xs {{ famille.icon }}"></span>
+                        <input type="radio" name="options" id="option2" autocomplete="off"> <span class="">{{ famille.nom }}</span>
                     </label>
                 {% endfor %}
             </div>
         </div>
         <div class="col-md-6">
-            <h3>Categories</h3>
-            <div class="btn-group" data-toggle="buttons" data-filter-group="categorie">
-                <label class="btn btn-default active" data-filter="">
-                    <input type="radio" name="options" id="option1" autocomplete="off" checked>Tous
-                </label>
+            {#<h3 class="hidden-xs hidden-sm">Categories</h3>#}
+            {#<span class="hidden-xs hidden-sm" style="text-align: center;display: block;">Categories</span>#}
+            <div class="btn-group btn-group-justified" data-toggle="buttons" data-filter-group="categorie">
                 {% for categorie in categories %}
-                    <label class="btn btn-default" data-filter=".{{ categorie.nomCategorie }}">
-                        <span class="glyphicon glyphicon-ice-lolly-tasted"></span>
-                        <input type="radio" name="options" id="option2" autocomplete="off"> {{ categorie.nomCategorie }}
+                    <label class="btn btn-default" data-filter=".{{ categorie.nom }}">
+                        <span class="hidden-xs {{ categorie.icon }}"></span>
+                        <input type="radio" name="options" id="option2" autocomplete="off"> {{ categorie.nom }}
                     </label>
                 {% endfor %}
             </div>
         </div>
     </div>
-
 <div class="clearfix"></div>
 
     <section id="grid" class="row ">
         {% for recette in recettes %}
-            <article class="col-sm-3 element-item {{ recette.famille.nomFamille }} {{ recette.categorie.nomCategorie }}">
-                <h3><a href="{{ path('recette_view', {'id': recette.id} ) }}">{{ recette.nom }}</a></h3>
-                <p class="well">
+            <article class="col-xs-12 col-sm-6 col-md-6 col-lg-4 element-item {{ recette.famille.nom }} {{ recette.categorie.nom }}">
+                <h4><a href="{{ path('recette_view', {'id': recette.id} ) }}">{{ recette.nom|capitalize }}</a></h4>
+                <div class="well">
                     {#<img src="{{('images/' ~ recette.image.url) | imagine_filter('my_thumb')}}" alt="{{recette.image.alt}}" />#}
-                    <img src="{% path recette.image, 'small' %}" alt="{{ recette.image.description }}" style="display: block"/>
+                    <div>
+                        <img style="width:25%; float:left;" src="{% path recette.image, 'small' %}" alt="{{ recette.image.description }}" />
+
+                        <div style="width:75%; float:left;padding-left:5px;">
+                            <div>Durée : {{ recette.tempsRealisation|rating(5, 'fa-norm') }}</div>
+                            <div>Difficulte : {{ recette.difficulte|rating(5, 'fa-norm') }}</div>
+                            <div>Prix : {{ recette.cout|rating(5, 'fa-norm') }}</div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
                     {#{% media recette.image, 'small' %}#}
-                    <span class="label label-default">{{ recette.famille.nomFamille }}</span>
-                    <span class="label label-default">{{ recette.categorie.nomCategorie }}</span>
-                </p>
+                    <div>
+                    <span class="label label-default">{{ recette.famille.nom }}</span>
+                    <span class="label label-default">{{ recette.categorie.nom }}</span>
+                    </div>
+                </div>
 
             </article>
         {% else %}
@@ -71,14 +78,23 @@
 // store filter for each group
             var filters = {};
 
-            $('.filters').on( 'change', '.btn', function() {
+            $('.filters').on( 'click', '.btn', function(e) {
                 var $this = $(this);
+
+                console.log($this.hasClass('active'));
+
                 // get group key
                 var $buttonGroup = $this.parents('.btn-group');
                 var filterGroup = $buttonGroup.attr('data-filter-group');
                 // set filter for group
                 filters[ filterGroup ] = $this.attr('data-filter');
-                console.log($buttonGroup);
+                if ($this.hasClass('active') == true) {
+                    console.log('toto');
+                    e.stopImmediatePropagation();
+                    e.preventDefault();
+                    filters[ filterGroup ] = '';
+                    $this.removeClass("active").prop('checked', false);
+                }
                 // combine filters
                 var filterValue = concatValues( filters );
                 // set filter for Isotope

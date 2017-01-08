@@ -9,7 +9,7 @@
     </div>
 
     {% if recette is not null %}
-    <h1>{% if recette.categorie is not null %}{{ recette.categorie.nomCategorie }} /{% endif %}  {{ recette.famille.nomFamille }}  / {{ recette.numero }}</h1>
+    <h1>{% if recette.categorie is not null %}{{ recette.categorie.nom }} /{% endif %}  {{ recette.famille.nom }}  / {{ recette.numero }}</h1>
     <h2>{{ recette.nom }} {% if recette.pays is not null %} ({{ recette.pays | country }}) {% endif %}</h2>
 
         {% media recette.image, 'big' %}
