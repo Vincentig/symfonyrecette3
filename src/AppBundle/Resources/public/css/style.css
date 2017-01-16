@@ -4,7 +4,11 @@
     background-color: #fff;
 }
 
-
+.btn-default:hover {
+    color: #333;
+    background-color: #ffffff;
+    border-color: #adadad;
+}
 
 .nav-side-menu {
     overflow: auto;

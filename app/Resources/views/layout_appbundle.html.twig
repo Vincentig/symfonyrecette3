@@ -44,7 +44,7 @@
                 {#<span class="hidden-xs hidden-sm" style="text-align: center;display: block;">Famille</span>#}
                 <div class="btn-group btn-group-justified" data-toggle="buttons" data-filter-group="famille">
                     {% for famille in familles %}
-                        <label class="btn btn-default" data-filter=".{{ famille.nom}}">
+                        <label type="button" class="btn btn-default" data-filter=".{{ famille.nom}}">
                             <span class="hidden-xs {{ famille.icon }}"></span>
                             <input type="radio" name="options" id="option2" autocomplete="off"> <span class="">{{ famille.nom }}</span>
                         </label>

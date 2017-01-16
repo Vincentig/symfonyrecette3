@@ -140,7 +140,11 @@ article{
     background-color: #fff;
 }
 
-
+.btn-default:hover {
+    color: #333;
+    background-color: #ffffff;
+    border-color: #adadad;
+}
 
 .nav-side-menu {
     overflow: auto;
@@ -313,9 +317,9 @@ article{
     }
 @font-face {
     font-family: 'WebHostingHub-Glyphs';
-    src: url('../Resources/public/font/webhostinghub-glyphs.eot');
-    src: url('../Resources/public/font/webhostinghub-glyphs.eot?#iefix') format('embedded-opentype'),
-         url('../Resources/public/font/webhostinghub-glyphs.ttf') format('truetype');
+    src: url('../../Resources/public/font/webhostinghub-glyphs.eot');
+    src: url('../../Resources/public/font/webhostinghub-glyphs.eot?#iefix') format('embedded-opentype'),
+         url('../../Resources/public/font/webhostinghub-glyphs.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 
