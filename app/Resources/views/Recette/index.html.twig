@@ -5,28 +5,28 @@
 {% block contenu %}
 
     {{ parent() }}
-    {#<div  class="filters row hidden-xs hidden-sm" style="margin-top:15px;" >#}
-        {#<div class="col-md-6">#}
-            {#<div class="btn-group btn-group-justified" data-toggle="buttons" data-filter-group="famille">#}
-                {#{% for famille in familles %}#}
-                    {#<label type="button" class="btn btn-default" data-filter=".{{ famille.nom}}">#}
-                        {#<span class="hidden-xs {{ famille.icon }}"></span>#}
-                        {#<input type="radio" name="options" id="option2" autocomplete="off"> <span class="">{{ famille.nom }}</span>#}
-                    {#</label>#}
-                {#{% endfor %}#}
-            {#</div>#}
-        {#</div>#}
-        {#<div class="col-md-6">#}
-            {#<div class="btn-group btn-group-justified" data-toggle="buttons" data-filter-group="categorie">#}
-                {#{% for categorie in categories %}#}
-                    {#<label type="button" class="btn btn-default" data-filter=".{{ categorie.nom }}">#}
-                        {#<span class="hidden-xs {{ categorie.icon }}"></span>#}
-                        {#<input type="radio" name="options" id="option2" autocomplete="off"> {{ categorie.nom }}#}
-                    {#</label>#}
-                {#{% endfor %}#}
-            {#</div>#}
-        {#</div>#}
-    {#</div>#}
+    <div  class="filters row" style="margin-top:15px;" >
+        <div class="col-md-6">
+            <div class="btn-group btn-group-justified" data-toggle="buttons" data-filter-group="famille">
+                {% for famille in familles %}
+                    <label type="button" class="btn btn-default" data-filter=".{{ famille.nom}}">
+                        <span class="hidden-xs {{ famille.icon }}"></span>
+                        <input type="radio" name="options" id="option2" autocomplete="off"> <span class="">{{ famille.nom }}</span>
+                    </label>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="btn-group btn-group-justified" data-toggle="buttons" data-filter-group="categorie">
+                {% for categorie in categories %}
+                    <label type="button" class="btn btn-default" data-filter=".{{ categorie.nom }}">
+                        <span class="hidden-xs {{ categorie.icon }}"></span>
+                        <input type="radio" name="options" id="option2" autocomplete="off"> {{ categorie.nom }}
+                    </label>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
 <div class="clearfix"></div>
 
     <section id="grid" class="row ">

@@ -70,7 +70,7 @@ class TypeQuantite
      */
     function __toString()
     {
-        return $this->getType();
+        return (string)$this->getType();
     }
 
 

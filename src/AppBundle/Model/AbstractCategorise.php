@@ -79,6 +79,6 @@ abstract class AbstractCategorise implements Iconable
      */
     public function __toString()
     {
-        return $this->getNom();
+        return (string)$this->getNom();
     }
 }

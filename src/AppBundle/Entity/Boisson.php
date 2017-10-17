@@ -72,6 +72,6 @@ class Boisson
      */
     public function __toString()
     {
-        return $this->getLibelle();
+        return (string)$this->getLibelle();
     }
 }
