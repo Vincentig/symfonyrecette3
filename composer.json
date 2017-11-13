@@ -16,6 +16,11 @@
             "Tests\\": "tests/"
         }
     },
+    "config": {
+        "platform": {
+            "php": "7.0.25"
+        }
+    },
     "require": {
         "symfony/symfony": "^3",
         "doctrine/orm": "^2",
